@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Research article: Harmonic Modeling of Air-Conditioning Demand Using Peak Shaving and Fourier Decomposition Techniques." name="description"/>
+<meta name="theme-color" content="#1c1411"/>
+<title>Research · SASG26 Riyadh Research</title>
+<link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin=""/>
+<link href="styles.css" rel="stylesheet"/>
+<script defer="" src="data.js"></script>
+<script defer="" src="dashboard.js"></script>
+</head>
+<body class="page-article">
+<a class="skip" href="#top">Skip to content</a>
+<header class="top">
+<div class="shell institutions" aria-label="Affiliation and conference">
+<div class="affiliation-logo"><img alt="Princess Nourah bint Abdulrahman University" src="assets/pnu-logo.svg"/><span>College of Engineering</span></div>
+<div class="conference-logo"><img alt="SASG26" src="assets/sasg26.svg"/><span dir="rtl" lang="ar">المؤتمر السعودي الرابع عشر للشبكات الذكية</span></div>
+<div class="patron-logo"><span>Under the patronage of</span><img alt="Ministry of Energy, Kingdom of Saudi Arabia" src="assets/ministry-energy-ink.png"/></div>
+</div>
+<div class="reading-bar"><div class="shell masthead"><nav aria-label="Site"><a href="index.html">Overview</a><a href="research.html" aria-current="page">Research</a><a href="results.html">Results</a><a href="references.html">References</a></nav></div></div>
+</header>
+<main class="shell" id="top">
+<article class="paper">
+<header class="paper-head">
+<p class="eyebrow">Research article · SASG26</p>
+<h1>Harmonic Modeling of Air-Conditioning Demand Using Peak Shaving and Fourier Decomposition Techniques</h1>
+<p class="paper-by">Department of Electrical Engineering, College of Engineering, Princess Nourah bint Abdulrahman University</p>
+</header>
+
+<section class="paper-abstract" id="abstract">
+<h2>Abstract</h2>
+<p>Air-conditioning contributes to Saudi Arabia’s summer electricity demand.<sup><a aria-label="Reference 1" href="references.html#ref-cooling">[1]</a></sup> This study uses 24 hourly estimates from a published average daily profile of Riyadh’s total regional load in summer 2017 to test whether a Fourier representation improves the scheduling of flexible demand.<sup><a aria-label="Reference 2" href="references.html#ref-load">[2]</a></sup> A five-harmonic fit explained 97.27% of the hourly variation. On the original profile, direct and Fourier-guided scheduling both reduced the peak by 3.29% while shifting 2,124.45 MWh and conserving daily energy; direct scheduling produced the smaller maximum hourly ramp. Under 3% synthetic observation noise, Fourier guidance averaged a higher peak reduction than direct scheduling. The results describe an illustrative simulation of total regional load, not a field validation.</p>
+<p class="keywords"><strong>Keywords:</strong> demand response, Fourier series, peak shaving, load shifting, Riyadh, smart grid</p>
+</section>
+
+<section id="background">
+<h2><span>1</span>Introduction</h2>
+<p>Demand response changes when flexible electricity use occurs. Moving part of the afternoon load to lower-demand hours can reduce the highest hourly demand while delivering the same total daily energy. Cooling accounts for a large share of summer residential electricity use in Saudi Arabia, which makes the timing of flexible load a practical lever for the grid.<sup><a aria-label="Reference 1" href="references.html#ref-cooling">[1]</a></sup></p>
+<p>Fourier methods describe repeating patterns in electricity demand.<sup><a aria-label="Reference 3" href="references.html#ref-fourier">[3]</a></sup> Here, the daily harmonics summarize the shape of the city-wide load curve, so decisions made from the smoothed signal can be compared with decisions made from the original hourly estimates. The question is whether that smoother description leads to better choices about which hours to shift.</p>
+<p>In a deployment, smart meters would record interval use, a communications network would transmit it, and a meter-data system would prepare the profile for analysis.<sup><a aria-label="Reference 4" href="references.html#ref-ami">[4]</a></sup> This study does not use meter data; it works with a published regional profile.</p>
+</section>
+
+<section id="methods">
+<h2><span>2</span>Data</h2>
+<p>The input is an estimate of Riyadh’s <strong>total electricity load</strong> digitized as 24 hourly values from Figure 2 of the source study.<sup><a aria-label="Reference 2" href="references.html#ref-load">[2]</a></sup> The values represent one average summer day. The baseline reaches 14,110.90 MW at 13:00, the daily mean is 12,645.53 MW and daily energy is 303,492.70 MWh. Because the profile is total regional load, it does not separate air-conditioning demand from other uses.</p>
+
+<h2><span>3</span>Fourier model</h2>
+<p>The hourly load is approximated by its daily mean plus K harmonic pairs:</p>
+<div aria-label="The fitted load is the daily mean plus a sum of cosine and sine terms." class="equation">P̂<sub>K</sub>(t) = a<sub>0</sub> + ∑<sub>k=1</sub><sup>K</sup> [a<sub>k</sub> cos(ω<sub>k</sub>t) + b<sub>k</sub> sin(ω<sub>k</sub>t)],&#8195;ω<sub>k</sub> = 2πk / 24</div>
+<p>Here t is hours after midnight and a<sub>0</sub> is the daily mean. Each pair of coefficients gives an amplitude A<sub>k</sub> = √(a<sub>k</sub>² + b<sub>k</sub>²) and a phase φ<sub>k</sub> = atan2(−b<sub>k</sub>, a<sub>k</sub>), so each term can also be written A<sub>k</sub> cos(ω<sub>k</sub>t + φ<sub>k</sub>). Fit quality is measured by the hourly root-mean-square error (RMSE) and by the share of hourly variation explained. Orders K = 1 to 7 were compared; K = 5 was used for control and K = 7 is reported as exploratory.</p>
+
+<h2 id="experiment"><span>4</span>Demand-response experiment</h2>
+<p>Each method moves 2,124.45 MWh, equal to 0.7% of baseline daily energy, from six donor hours to six receiving hours. Every hourly adjustment is limited to 464.06 MW, set at 4% of the minimum baseline hourly load. All schedules are evaluated on the same original profile.</p>
+<ul class="method-list">
+<li><strong>Fixed-time scheduling</strong> moves equal amounts out of 12:00–17:00 and into 00:00–05:00.</li>
+<li><strong>Direct scheduling</strong> selects the six highest and six lowest original loads and allocates the shift within the hourly limit using a numerical level search.</li>
+<li><strong>Fourier-guided scheduling</strong> applies the same allocation rule, but selects and sizes the hours from the five-harmonic fit. The resulting adjustments are applied to the original load.</li>
+</ul>
+<p>Peak reduction is the fall in maximum hourly load relative to baseline. Maximum ramp is the largest absolute change between consecutive hours. Load factor is mean load divided by peak load. In every schedule, the removed and returned energy each equal the shift budget, so daily energy is conserved.</p>
+
+<h2 id="robustness"><span>5</span>Synthetic-noise test</h2>
+<p>To test sensitivity to imperfect input, Gaussian noise with a standard deviation of 1% or 3% of mean load was added to the profile. In each of 200 paired trials per level, every method planned its schedule from the same noisy signal, and the schedule was then scored on the original profile. Fourier K3 and K5 fits and 3-hour and 5-hour moving averages were compared with direct scheduling. This is a stress test on one profile, not a field validation.</p>
+</section>
+
+<section id="findings">
+<h2><span>6</span>Results</h2>
+<p>Direct and Fourier-guided scheduling both lowered the peak from 14,110.90 MW to 13,646.84 MW, a 3.29% reduction, while fixed-time scheduling reached 2.51%. Direct scheduling had the smaller maximum ramp, 489.20 MW/h against 686.02 MW/h. The five-harmonic fit achieved an RMSE of 125.12 MW and explained 97.27% of hourly variation; the 24-hour harmonic alone explained 86.80%. At 3% synthetic noise, Fourier K5 averaged a 3.17% reduction against 2.84% for direct scheduling, with 90 wins, 97 ties and 13 losses in 200 paired trials. The <a href="results.html">Results</a> page presents each of these interactively.</p>
+</section>
+
+<section id="discussion">
+<h2><span>7</span>Discussion</h2>
+<p>On the original profile, Fourier smoothing did not improve on the best peak reduction; direct and Fourier-guided scheduling tie, and direct scheduling changes load more gradually. The advantage of the smoothed signal appears only when the input is noisy. Even then, the moving-average benchmarks reached similar mean reductions, and Fourier K3 averaged slightly more than K5, so the gain comes from smoothing in general rather than from the Fourier form alone.</p>
+<p>The study has clear limits. It uses one digitized average profile, assumes that the shifted load is available and flexible, and does not model comfort, tariffs or network constraints. A field study would need multiple summer days of interval meter readings, outdoor and indoor temperatures, HVAC capacity and comfort limits. A first-order Taylor approximation could then estimate temperature sensitivity near an operating point, and a thermal model could test whether buildings maintain comfort after shifting.</p>
+</section>
+
+<section id="conclusion">
+<h2><span>8</span>Conclusion</h2>
+<p>A five-harmonic Fourier model describes Riyadh’s average summer load curve closely, and scheduling from it matches direct scheduling on peak reduction while shifting the same energy. Its value is robustness to noisy input rather than a better peak on clean data, a trade-off that should be weighed against its larger hour-to-hour ramps.</p>
+</section>
+</article>
+</main>
+<footer class="site-footer">
+<div class="shell footer-grid">
+<div><p class="foot-k">Conference partners</p><p class="foot-s">Saudi Arabia Smart Grid Conference 2026</p></div>
+<figure><img alt="IEEE Power &amp; Energy Society" src="assets/ieee-ink.png"/><figcaption>Technical partner</figcaption></figure>
+<figure><img alt="Association for Electrical and Energy Engineering" src="assets/aeee-ink.png"/><figcaption>Scientific and professional sponsor</figcaption></figure>
+</div>
+<div class="shell foot-line">Department of Electrical Engineering · College of Engineering · Princess Nourah bint Abdulrahman University</div>
+</footer>
+</body>
+</html>

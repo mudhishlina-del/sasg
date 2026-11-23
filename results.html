@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Interactive results: demand-response comparison, Fourier reconstruction, harmonics, synthetic-noise audit, hourly demand control and a peak-cap experiment for Riyadh’s summer load." name="description"/>
+<meta name="theme-color" content="#1c1411"/>
+<title>Results · SASG26 Riyadh Research</title>
+<link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin=""/>
+<link href="styles.css" rel="stylesheet"/>
+<script defer="" src="data.js"></script>
+<script defer="" src="dashboard.js"></script>
+</head>
+<body class="page-results">
+<a class="skip" href="#top">Skip to content</a>
+<header class="top">
+<div class="shell institutions" aria-label="Affiliation and conference">
+<div class="affiliation-logo"><img alt="Princess Nourah bint Abdulrahman University" src="assets/pnu-logo.svg"/><span>College of Engineering</span></div>
+<div class="conference-logo"><img alt="SASG26" src="assets/sasg26.svg"/><span dir="rtl" lang="ar">المؤتمر السعودي الرابع عشر للشبكات الذكية</span></div>
+<div class="patron-logo"><span>Under the patronage of</span><img alt="Ministry of Energy, Kingdom of Saudi Arabia" src="assets/ministry-energy-ink.png"/></div>
+</div>
+<div class="reading-bar"><div class="shell masthead"><nav aria-label="Site"><a href="index.html">Overview</a><a href="research.html">Research</a><a href="results.html" aria-current="page">Results</a><a href="references.html">References</a></nav></div></div>
+</header>
+<main id="top">
+
+<section class="hero-dark" aria-labelledby="results-title">
+<div class="shell hero-grid">
+<div class="hero-copy">
+<p class="kicker">Results <span>·</span> Total regional load <span>·</span> Illustrative simulation</p>
+<h1 id="results-title">The 13:00 peak fell by <em class="nowrap">464 MW</em></h1>
+<p class="dek">Direct and Fourier-guided scheduling cut the simulated peak by the same amount, 3.29%, by moving 2,124 MWh of afternoon load into cooler hours. Fixed-time scheduling reached 2.51%. The tie breaks on smoothness: Direct’s largest hour-to-hour change is 489 MW/h vs 686 MW/h.</p>
+<dl class="hero-kpis" aria-label="Headline results">
+<div><dt>Original peak</dt><dd>14,110.90<small>MW</small></dd></div>
+<div class="hot"><dt>Controlled peak</dt><dd>13,646.84<small>MW</small></dd></div>
+<div><dt>Peak reduction</dt><dd>3.29<small>%</small></dd></div>
+<div><dt>Average load</dt><dd>12,645.53<small>MW</small></dd></div>
+<div><dt>Energy shifted</dt><dd>2,124.45<small>MWh</small></dd></div>
+</dl>
+</div>
+<figure class="hero-figure">
+<div class="chart" id="hero-radial"></div>
+<figcaption id="hero-legend"></figcaption>
+</figure>
+</div>
+<div class="shell strip-wrap">
+<div class="strip-head"><span>Baseline load by hour</span><output id="strip-readout">13:00 · 14,110.90 MW</output></div>
+<div class="chart" id="hero-strip"></div>
+</div>
+<div class="shell hero-foot">
+<p class="scope">Input: 24 hourly estimates digitized from a published average summer-day profile of Riyadh’s <strong>total regional load</strong> (2017).<sup><a aria-label="Reference 2" href="references.html#ref-load">[2]</a></sup> It does not isolate air-conditioning demand and is not smart-meter data. Daily energy stays at 303,492.70 MWh in every schedule.</p>
+<nav class="section-index" aria-label="Results sections">
+<a href="#control"><span>01</span>Demand response</a>
+<a href="#fourier"><span>02</span>Fourier fit</a>
+<a href="#harmonics"><span>03</span>Harmonics</a>
+<a href="#noise"><span>04</span>Noise audit</a>
+<a href="#hourly"><span>05</span>Hourly control</a>
+<a href="#task5"><span>06</span>Peak cap</a>
+</nav>
+</div>
+</section>
+
+<div class="shell">
+<p class="error-banner" hidden="" id="verification" role="alert"></p>
+
+<!-- 01 · Matched demand response -->
+<section class="study" id="control" aria-labelledby="control-title">
+<header class="study-head">
+<p class="study-num">01 · Matched demand response</p>
+<h2 id="control-title">How does each method reshape the day?</h2>
+<p>All three schedules move 2,124.45 MWh with the same 464.06 MW hourly limit. Drag across the chart, tap it, or use the slider to read any hour.</p>
+</header>
+<div class="toolbar">
+<div class="choices legend-toggles" id="profile-choices" aria-label="Show or hide profiles"></div>
+<div class="choices jump" aria-label="Jump to hour">
+<button type="button" data-jump="13">13:00 peak</button><button type="button" data-jump="23">23:00</button>
+</div>
+</div>
+<div class="stage">
+<figure class="figure">
+<div class="chart" id="dr-chart"></div>
+<div class="scrub"><label for="dr-hour">Hour</label><input id="dr-hour" type="range" min="0" max="23" step="1" value="13"/></div>
+<figcaption>No control is the digitized input; the three schedules are simulation results. Shaded bands are the fixed-time schedule’s donor (12:00–17:00) and receiving (00:00–05:00) hours. Direct and Fourier-guided choose their own hours. The dashed line at 13,500 MW is an analytical threshold for this study.</figcaption>
+</figure>
+<aside class="readout" id="dr-readout" aria-live="polite" aria-label="Load at the selected hour"></aside>
+</div>
+
+<div class="subhead">
+<h3>A tie on peak reduction, a trade-off on ramp</h3>
+<p>Peak reduction measures how far the highest hour falls. Maximum ramp is the largest change between consecutive hours, so lower is smoother.</p>
+</div>
+<div class="pair">
+<figure class="figure"><div class="chart" id="peak-chart"></div></figure>
+<figure class="figure"><div class="chart" id="ramp-chart"></div></figure>
+</div>
+
+<div class="subhead">
+<h3>Other outcomes</h3>
+</div>
+<div class="choices tabs" id="secondary-tabs" role="group" aria-label="Secondary measure"></div>
+<figure class="figure">
+<div class="chart" id="secondary-chart"></div>
+<figcaption id="secondary-caption"></figcaption>
+</figure>
+</section>
+
+<!-- 02 · Fourier reconstruction -->
+<section class="study" id="fourier" aria-labelledby="fourier-title">
+<header class="study-head">
+<p class="study-num">02 · Fourier reconstruction</p>
+<h2 id="fourier-title">How well do five harmonics describe the day?</h2>
+<p>The fit adds the daily mean and K sine–cosine pairs. K = 5 is the model used to guide the control comparison.</p>
+</header>
+<div class="toolbar">
+<div class="order-control">
+<label for="order">Harmonics <output id="order-value">K = 5</output></label>
+<input id="order" type="range" min="1" max="7" step="1" value="5"/>
+<span class="order-tag" id="order-tag">Used in control comparison</span>
+</div>
+</div>
+<dl class="stats" id="fourier-stats" aria-live="polite"></dl>
+<div class="stage">
+<figure class="figure">
+<div class="chart" id="fit-chart"></div>
+<div class="scrub"><label for="fit-hour">Hour</label><input id="fit-hour" type="range" min="0" max="23" step="1" value="13"/></div>
+<figcaption>Upper panel: open circles are the 24 digitized hourly estimates, the line is the reconstruction. Lower panel: residual (estimate minus fit) on the same time axis, with a fixed ±600 MW scale for every K.</figcaption>
+</figure>
+<aside class="readout compact" id="fit-readout" aria-live="polite" aria-label="Fit at the selected hour"></aside>
+</div>
+<div class="subhead">
+<h3>Fit error by model order</h3>
+<p>Hourly RMSE for one through seven harmonics. Select a point to change the model above.</p>
+</div>
+<figure class="figure"><div class="chart" id="order-chart"></div>
+<figcaption>K = 7 is exploratory and was not used for control.</figcaption></figure>
+</section>
+
+<!-- 03 · Harmonics -->
+<section class="study" id="harmonics" aria-labelledby="harmonics-title">
+<header class="study-head">
+<p class="study-num">03 · Harmonics</p>
+<h2 id="harmonics-title">How dominant is the 24-hour cycle?</h2>
+<p id="harmonics-intro">The 24-hour component alone explains 86.80% of the hourly variation. Select a harmonic to see its wave.</p>
+</header>
+<div class="pair uneven">
+<figure class="figure"><div class="chart" id="spectrum-chart"></div>
+<figcaption>Amplitude of each harmonic from a common zero. The percentage is that harmonic’s share of hourly variation.</figcaption></figure>
+<div>
+<dl class="stats tight" id="harmonic-stats" aria-live="polite"></dl>
+<figure class="figure"><div class="chart" id="wave-chart"></div>
+<figcaption id="wave-caption">Selected harmonic over 24 hours on a fixed ±1,000 MW axis. The 24-hour wave is shown faintly for scale.</figcaption></figure>
+</div>
+</div>
+<div class="subhead">
+<h3>Period, phase and coefficients of every harmonic</h3>
+<p>The same seven harmonics, compared on four measures. Select a row to change the harmonic above.</p>
+</div>
+<div class="pair quad">
+<figure class="figure"><div class="chart" id="coef-period"></div></figure>
+<figure class="figure"><div class="chart" id="coef-phase"></div></figure>
+<figure class="figure"><div class="chart" id="coef-a"></div></figure>
+<figure class="figure"><div class="chart" id="coef-b"></div></figure>
+</div>
+<p class="note">Each harmonic term equals a<sub>k</sub> cos(ω<sub>k</sub>t) + b<sub>k</sub> sin(ω<sub>k</sub>t) = A<sub>k</sub> cos(ω<sub>k</sub>t + φ<sub>k</sub>), with ω<sub>k</sub> = 2πk/24 and t in hours after midnight.</p>
+</section>
+
+<!-- 4 · Noise and benchmarks -->
+<section class="study" id="noise" aria-labelledby="noise-title">
+<header class="study-head">
+<p class="study-num">04 · Synthetic noise and benchmarks</p>
+<h2 id="noise-title">Does guidance from a smoothed curve help when the input is noisy?</h2>
+<p>Each trial adds the same synthetic Gaussian noise to the one Riyadh profile before every method plans its schedule. The schedules are then scored on the original profile. There are 200 paired trials per level. Without noise the methods tie on peak reduction.</p>
+</header>
+<div class="choices tabs" id="noise-choices" role="group" aria-label="Synthetic noise level"></div>
+<p class="callout" id="noise-callout"></p>
+<div class="pair">
+<figure class="figure"><div class="chart" id="outcome-chart"></div>
+<figcaption>Paired outcomes relative to Direct in the same trials.</figcaption></figure>
+<figure class="figure"><div class="chart" id="spread-chart"></div>
+<figcaption>Mean peak reduction (filled) and the 5th-percentile trial (open), the low end of the range.</figcaption></figure>
+</div>
+<p class="note">Moving-average curves (3 h and 5 h) are smoothing benchmarks. Their results are close to Fourier K5, so the advantage over Direct comes from smoothing in general and is not specific to Fourier. These are results under simulated noise, not field validation.</p>
+</section>
+
+<!-- 05 · Hourly demand control -->
+<section class="study" id="hourly" aria-labelledby="hourly-title">
+<header class="study-head">
+<p class="study-num">05 · Hourly demand control</p>
+<h2 id="hourly-title">When does each method remove and return load?</h2>
+<p>Bars show the modeled change from baseline in each hour. Bars below zero remove load and bars above zero return it. Removed and returned energy balance over the day.</p>
+</header>
+<div class="toolbar">
+<div class="choices segmented" id="report-methods" role="group" aria-label="Method"></div>
+</div>
+<dl class="stats" id="report-stats" aria-live="polite"></dl>
+<div class="stage">
+<figure class="figure">
+<div class="chart" id="report-chart"></div>
+<div class="scrub"><label for="report-hour">Hour</label><input id="report-hour" type="range" min="0" max="23" step="1" value="13"/></div>
+</figure>
+<aside class="readout compact" id="report-readout" aria-live="polite" aria-label="Change at the selected hour"></aside>
+</div>
+<div class="pair context-pair">
+<figure class="figure meter-card">
+<div class="chart" id="meter-chart"></div>
+<div class="scrub"><label for="meter-hour">Hour</label><input id="meter-hour" type="range" min="0" max="23" step="1" value="13"/></div>
+<figcaption>Meter-style view of the same hour, for illustration only. It replays the historical digitized profile and has no live telemetry or smart-meter data.</figcaption>
+</figure>
+<div class="context-col">
+<div class="context-card" aria-label="Saudi grid context">
+<p class="card-k">Standards and Saudi context</p>
+<div class="ctx-row"><p class="ctx-big">60 Hz</p><div><p class="ctx-t">Nominal transmission frequency</p><p class="ctx-s">59.9–60.1 Hz normal operating band · Grid Code §2.10.2.1<sup><a aria-label="Reference 5" href="references.html#ref-grid">[5]</a></sup></p></div></div>
+<div class="ctx-row"><p class="ctx-big hot">~70%</p><div><p class="ctx-t">Cooling share of summer residential electricity use, reported in a Saudi study</p><p class="ctx-s">Alshahrani and Boait, Energies 12(1), 87<sup><a aria-label="Reference 1" href="references.html#ref-cooling">[1]</a></sup></p><div class="ctx-bar" aria-hidden="true"><span style="width:70%"></span></div></div></div>
+<p class="ctx-scope">Context only. This study uses digitized total regional load and does not separate cooling demand.</p>
+</div>
+<div class="reference-box">
+<h3>Reporting reference</h3>
+<p>The view follows the hourly MW-by-hour structure used for demand-response reporting in the Saudi Arabian Grid Code, May 2026, Schedule 7.<sup><a aria-label="Reference 5" href="references.html#ref-grid">[5]</a></sup> The Grid Code lists demand-side response as a system service (§2.14), describes hourly reporting at individual connection points (§4.5) and specifies quarter-hourly integration for peak-demand metering (§7.7.2).</p>
+<p>This simulation uses hourly estimates of total regional load, so the Code serves only as a reporting reference here. It is not a compliance assessment or operational validation.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 6 · Task 5 -->
+<section class="study separate" id="task5" aria-labelledby="task5-title">
+<header class="study-head">
+<p class="study-num">06 · Separate experiment · Task 5 peak cap</p>
+<h2 id="task5-title">What peak does a fixed cap produce?</h2>
+<p>This experiment uses its own Task 5 input profile and rules, so it is not ranked against the matched comparison above. Load above the target is removed and redistributed evenly across 00:00–05:00. Daily energy is unchanged.</p>
+</header>
+<div class="toolbar">
+<div class="choices" id="cap-choices" role="group" aria-label="Saved Task 5 scenarios"></div>
+<div class="order-control">
+<label for="cap">Target <output id="cap-value">13,200 MW</output></label>
+<input id="cap" type="range" min="12500" max="14100" step="10" value="13200"/>
+</div>
+</div>
+<dl class="stats" id="cap-stats" aria-live="polite"></dl>
+<figure class="figure">
+<div class="chart" id="cap-chart"></div>
+<figcaption id="cap-caption"></figcaption>
+</figure>
+</section>
+<p class="srcline">Illustrative simulation of digitized total regional load (published 2017 Riyadh summer profile<sup><a aria-label="Reference 2" href="references.html#ref-load">[2]</a></sup>). Not smart-meter data or field validation.</p>
+</div>
+</main>
+<footer class="site-footer">
+<div class="shell footer-grid">
+<div><p class="foot-k">Conference partners</p><p class="foot-s">Saudi Arabia Smart Grid Conference 2026</p></div>
+<figure><img alt="IEEE Power &amp; Energy Society" src="assets/ieee-ink.png"/><figcaption>Technical partner</figcaption></figure>
+<figure><img alt="Association for Electrical and Energy Engineering" src="assets/aeee-ink.png"/><figcaption>Scientific and professional sponsor</figcaption></figure>
+</div>
+<div class="shell foot-line">Department of Electrical Engineering · College of Engineering · Princess Nourah bint Abdulrahman University</div>
+</footer>
+</body>
+</html>
