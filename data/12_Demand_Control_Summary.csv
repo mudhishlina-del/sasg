@@ -1,0 +1,4 @@
+Method,HoursReduced,HoursAdded,MaxReduction_MW,EnergyShifted_MWh
+Fixed-time DR,6,6,354.0748166667,2124.4489000002
+Direct DR,6,6,464.056,2124.4489000001
+Fourier-guided DR,6,6,464.056,2124.4489
