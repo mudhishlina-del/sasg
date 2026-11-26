@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="Research article: Harmonic Modeling of Air-Conditioning Demand Using Peak Shaving and Fourier Decomposition Techniques." name="description"/>
+<meta content="Research poster: Harmonic Modeling of Air-Conditioning Demand Using Peak Shaving and Fourier Decomposition Techniques." name="description"/>
 <meta name="theme-color" content="#1c1411"/>
 <title>Research · SASG26 Riyadh Research</title>
 <link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin=""/>
-<link href="styles.css" rel="stylesheet"/>
-<script defer="" src="data.js"></script>
-<script defer="" src="dashboard.js"></script>
+<link href="styles.css?v=4" rel="stylesheet"/>
+<script defer="" src="data.js?v=4"></script>
+<script defer="" src="dashboard.js?v=4"></script>
 </head>
-<body class="page-article">
+<body class="page-poster">
 <a class="skip" href="#top">Skip to content</a>
 <header class="top">
 <div class="shell institutions" aria-label="Affiliation and conference">
@@ -21,88 +21,73 @@
 </div>
 <div class="reading-bar"><div class="shell masthead"><nav aria-label="Site"><a href="index.html">Overview</a><a href="research.html" aria-current="page">Research</a><a href="results.html">Results</a><a href="references.html">References</a><a href="team.html">Team</a></nav></div></div>
 </header>
-<main class="shell" id="top">
-<article class="paper">
-<header class="paper-head">
-<p class="eyebrow">Research article · SASG26</p>
-<h1>Harmonic Modeling of Air-Conditioning Demand Using Peak Shaving and Fourier Decomposition Techniques</h1>
-<p class="paper-by">Roz Aldosari, Arwa Alshangiti, Mayan Alkahtani, Layan Asiri, Deema Aldwayan, Lina Mudhish, Juri Alabdullatif · Supervisor: Dr. Yazan M. Allawi · <a href="team.html">Meet the team</a></p>
-<p class="paper-by">Department of Electrical Engineering, College of Engineering, Princess Nourah bint Abdulrahman University</p>
+<main class="poster-page" id="top">
+<header class="ptitle shell">
+<h1>Harmonic Modeling of Air-Conditioning Demand Using Peak-Shaving and Fourier Decomposition Techniques</h1>
+<p class="pauthors">Roz Aldosari · Arwa Alshangiti · Mayan Alkahtani · Layan Asiri · Deema Aldwayan · Lina Mudhish · Juri Alabdullatif <span>|</span> Supervisor: Dr. Yazan M. Allawi</p>
+<p class="pdept">Department of Electrical Engineering, College of Engineering, Princess Nourah bint Abdulrahman University</p>
 </header>
-
-<section class="paper-abstract" id="abstract">
-<h2>Abstract</h2>
-<p>Air conditioning drives severe early-afternoon demand peaks on the Saudi grid.<sup><a aria-label="Reference 1" href="references.html#ref-cooling">[1]</a></sup> This study applies Fourier series decomposition to 24 hourly values of Riyadh’s average summer total load in 2017<sup><a aria-label="Reference 2" href="references.html#ref-load">[2]</a></sup> to characterize the daily peak and guide demand-response scheduling. The five-harmonic (K = 5) reconstruction achieves an RMSE of 125.12 MW and explains 97.27% of hourly variation. Three methods are compared under the same 2,124.45 MWh shift budget: Fourier decomposition only, peak shaving only, and the proposed Fourier-guided peak shaving. Peak shaving only and the proposed method both lower the peak from 14,110.90 MW to 13,646.84 MW (3.29%) while conserving daily energy; peak shaving only produces the smaller hourly ramp. Under 3% synthetic observation noise, the proposed method keeps more of the cut (3.17% vs 2.84% mean over 200 paired trials), although moving averages perform similarly. The framework links smart meters and AMI to transparent demand-response scheduling; the results are an illustrative simulation, not a field validation.</p>
-<p class="keywords"><strong>Keywords:</strong> demand response, Fourier series, peak shaving, load shifting, Riyadh, smart grid</p>
-</section>
-
-<section id="introduction">
-<h2><span>1</span>Introduction</h2>
-<p>Saudi Arabia runs one of the world’s most cooling-dominated power systems: air conditioning reaches about 70% of summer residential electricity,<sup><a aria-label="Reference 1" href="references.html#ref-cooling">[1]</a></sup><sup><a aria-label="Reference 12" href="references.html#ref-gastat-house">[12]</a></sup> and the national peak lands in the early afternoon and lasts roughly five hours. The record peak of 61,162 MW (June 2017) struck at 2:30 PM near 50 °C;<sup><a aria-label="Reference 10" href="references.html#ref-sec">[10]</a></sup> by 2024 the grid peak reached 74.8 GW.<sup><a aria-label="Reference 11" href="references.html#ref-gastat-elec">[11]</a></sup></p>
-<p>This study asks whether the harmonic structure of the daily demand curve can schedule demand response that shaves this air-conditioning-driven peak without wasting energy: moving part of the afternoon load to lower-demand hours reduces the highest hourly demand while delivering the same total daily energy.</p>
-</section>
-
-<section id="background">
-<h2><span>2</span>Background</h2>
-<p>Demand response (DR) over smart meters and Advanced Metering Infrastructure (AMI)<sup><a aria-label="Reference 4" href="references.html#ref-ami">[4]</a></sup> reshapes demand instead of adding peaking capacity, and Saudi studies show large potential: up to 34.7% peak reduction from residential thermostat control<sup><a aria-label="Reference 6" href="references.html#ref-krarti">[6]</a></sup> and a long-standing case for DR in the Kingdom.<sup><a aria-label="Reference 7" href="references.html#ref-maqbool">[7]</a></sup> Published Fourier methods are accurate for hourly demand forecasting<sup><a aria-label="Reference 3" href="references.html#ref-fourier">[3]</a></sup> and exist for building-scale heating and cooling models,<sup><a aria-label="Reference 8" href="references.html#ref-dhar">[8]</a></sup> but Saudi forecasting practice is dominated by machine-learning models that predict the curve without exposing which demand component is shiftable or when.<sup><a aria-label="Reference 9" href="references.html#ref-alrasheedi">[9]</a></sup> No published work couples grid-level Fourier decomposition of an air-conditioning-dominated Saudi load curve directly to DR scheduling.</p>
-<p><strong>Objective:</strong> decompose the digitized 2017 Riyadh summer profile into harmonics, use the dominant amplitude and phase to guide a peak-shaving schedule, and test it against peak shaving alone, including under synthetic measurement noise.</p>
-</section>
-
-<section id="application">
-<h2><span>3</span>Proposed application</h2>
-<p>A Fourier-guided demand-response framework is proposed for smart-grid load management. The model identifies peak and off-peak periods using harmonic reconstruction and redistributes flexible loads under predefined constraints. The approach aims to reduce peak demand, improve load distribution and maintain daily energy balance. Future integration with AMI could support adaptive demand-response scheduling.<sup><a aria-label="Reference 4" href="references.html#ref-ami">[4]</a></sup></p>
-</section>
-
-<section id="data">
-<h2><span>4</span>Data</h2>
-<p>The input is an estimate of Riyadh’s <strong>total electricity load</strong>, digitized as 24 hourly values from Figure 2 of the source study for one average summer day in 2017.<sup><a aria-label="Reference 2" href="references.html#ref-load">[2]</a></sup> The baseline peaks at 14,110.90 MW at 13:00; the daily mean is 12,645.53 MW and daily energy is 303,492.70 MWh. Because the profile is total regional load, it does not separate air-conditioning demand from other uses, and it is not smart-meter data.</p>
-</section>
-
-<section id="methods">
-<h2><span>5</span>Mathematical model</h2>
+<div class="shell pgrid">
+<section class="pcard span3"><h2 class="pbar">Abstract</h2><div class="pbody"><p>Air conditioning drives severe early-afternoon demand peaks on the Saudi grid.<sup><a class="cite" href="#ref-cooling" data-ref="[1] J. Alshahrani and P. Boait, “Reducing High Energy Demand Associated with Air-Conditioning Needs in Saudi Arabia,” Energies, 12(1), 87, 2019.">[1]</a></sup> This study applies Fourier series decomposition to 24 hourly values of Riyadh’s average summer total load in 2017<sup><a class="cite" href="#ref-load" data-ref="[2] A. Alshahrani, S. Omer, and Y. Su, “An Investigation into the Potential of Hosting Capacity and the Frequency Stability of a Regional Grid with Increasing Penetration Level of Large-Scale PV Systems,” Electronics, 10(11), 1254, 2021, Fig. 2.">[2]</a></sup> to characterize the daily peak and guide demand-response scheduling. The K = 5 reconstruction achieves an RMSE of 125.12 MW and explains 97.27% of hourly variation. Three methods are compared under the same 2,124.45 MWh shift budget: Fourier decomposition only, peak shaving only, and the proposed Fourier-guided peak shaving. Peak shaving only and the proposed method both lower the peak from 14,110.90 MW to 13,646.84 MW (3.29%) while conserving daily energy; peak shaving only produces the smaller hourly ramp. Under 3% synthetic noise the proposed method keeps more of the cut (3.17% vs 2.84% over 200 paired trials), although moving averages perform similarly. The results are an illustrative simulation, not a field validation.</p><p class="pkey"><strong>Keywords:</strong> demand response · Fourier series · peak shaving · load shifting · Riyadh · smart grid</p></div></section>
+<div class="pcol">
+<section class="pcard "><h2 class="pbar">Introduction</h2><div class="pbody"><p>Saudi Arabia runs one of the world’s most cooling-dominated power systems: air conditioning reaches about 70% of summer residential electricity,<sup><a class="cite" href="#ref-cooling" data-ref="[1] J. Alshahrani and P. Boait, “Reducing High Energy Demand Associated with Air-Conditioning Needs in Saudi Arabia,” Energies, 12(1), 87, 2019.">[1]</a><a class="cite" href="#ref-gastat-house" data-ref="[12] General Authority for Statistics (GASTAT), Household Energy Statistics 2023.">[12]</a></sup> and the national peak lands in the early afternoon and lasts roughly five hours.</p>
+<div class="pstats"><div><strong>61,162 MW</strong><span>record peak, June 2017, 2:30 PM near 50 °C<sup><a class="cite" href="#ref-sec" data-ref="[10] Saudi Electricity Company, Environmental, Social and Governance (ESG) Report.">[10]</a></sup></span></div><div><strong>74.8 GW</strong><span>grid peak in 2024<sup><a class="cite" href="#ref-gastat-elec" data-ref="[11] General Authority for Statistics (GASTAT), Electrical Energy Statistics 2024.">[11]</a></sup></span></div><div><strong>≈70%</strong><span>of summer residential use is cooling<sup><a class="cite" href="#ref-cooling" data-ref="[1] J. Alshahrani and P. Boait, “Reducing High Energy Demand Associated with Air-Conditioning Needs in Saudi Arabia,” Energies, 12(1), 87, 2019.">[1]</a></sup></span></div></div>
+<p>This study asks whether the harmonic structure of the daily demand curve can schedule demand response that shaves this air-conditioning-driven peak without wasting energy.</p></div></section>
+<section class="pcard "><h2 class="pbar alt">Background</h2><div class="pbody"><p>Demand response (DR) over smart meters and Advanced Metering Infrastructure (AMI)<sup><a class="cite" href="#ref-ami" data-ref="[4] U.S. Department of Energy, Advanced Metering Infrastructure and Customer Systems, 2016.">[4]</a></sup> reshapes demand instead of adding peaking capacity. Saudi studies show large potential: up to 34.7% peak reduction from residential thermostat control<sup><a class="cite" href="#ref-krarti" data-ref="[6] M. Krarti, “Evaluation of occupancy-based temperature controls on energy performance of KSA residential buildings,” Energy and Buildings, 220, 110047, 2020.">[6]</a></sup> and a long-standing case for DR in the Kingdom.<sup><a class="cite" href="#ref-maqbool" data-ref="[7] S. D. Maqbool, T. P. I. Ahamed, E. Al-Ammar, and N. H. Malik, “Demand response in Saudi Arabia,” in Proc. Int. Conf. Electric Power and Energy Conversion Systems (EPECS), IEEE, 2011.">[7]</a></sup></p>
+<p>Published Fourier methods are accurate for hourly demand forecasting<sup><a class="cite" href="#ref-fourier" data-ref="[3] E. Yukseltan, A. Yucekaya, and A. H. Bilge, “Hourly electricity demand forecasting using Fourier analysis with feedback,” Energy Strategy Reviews, 31, 100524, 2020.">[3]</a></sup> and exist for building-scale heating and cooling models,<sup><a class="cite" href="#ref-dhar" data-ref="[8] A. Dhar, T. A. Reddy, and D. E. Claridge, “A Fourier series model to predict hourly heating and cooling energy use in commercial buildings with outdoor temperature as the only weather variable,” Journal of Solar Energy Engineering, 121(1), 47–53, 1999.">[8]</a></sup> but Saudi forecasting practice is dominated by machine-learning models that predict the curve without exposing which demand component is shiftable or when.<sup><a class="cite" href="#ref-alrasheedi" data-ref="[9] A. Alrasheedi and A. Almalaq, “Hybrid Deep Learning Applied on Saudi Smart Grids for Short-Term Load Forecasting,” Mathematics, 10(15), 2666, 2022.">[9]</a></sup> No published work couples grid-level Fourier decomposition of an air-conditioning-dominated Saudi load curve directly to DR scheduling.</p>
+<p class="pobj"><strong>Objective:</strong> decompose the digitized 2017 Riyadh summer profile<sup><a class="cite" href="#ref-load" data-ref="[2] A. Alshahrani, S. Omer, and Y. Su, “An Investigation into the Potential of Hosting Capacity and the Frequency Stability of a Regional Grid with Increasing Penetration Level of Large-Scale PV Systems,” Electronics, 10(11), 1254, 2021, Fig. 2.">[2]</a></sup> into harmonics, use the dominant amplitude and phase to guide a peak-shaving schedule, and test it against peak shaving alone, including under synthetic measurement noise.</p></div></section>
+<section class="pcard grow"><h2 class="pbar">Three methods, four KPIs</h2><div class="pbody"><div class="ptable-wrap"><table class="ptable">
+<thead><tr><th>KPI</th><th>Fourier decomposition only</th><th>Peak shaving only</th><th class="prop">Proposed: Fourier + peak shaving</th></tr></thead>
+<tbody>
+<tr><th>Energy consumption<small>daily energy · energy shifted</small></th><td>303,492.70 MWh<small>no load moved</small></td><td>303,492.70 MWh<small>2,124.45 MWh shifted</small></td><td class="prop">303,492.70 MWh<small>2,124.45 MWh shifted</small></td></tr>
+<tr><th>Peak demand reduction<small>clean profile</small></th><td>0%<small>14,110.90 MW</small></td><td><b>3.29%</b><small>13,646.84 MW</small></td><td class="prop"><b>3.29%</b><small>13,646.84 MW (tie)</small></td></tr>
+<tr><th>Peak reduction, 3% synthetic noise<small>mean · worst 5% of 200 trials</small></th><td>n/a</td><td>2.84% · 1.65%</td><td class="prop"><b>3.17% · 2.43%</b></td></tr>
+<tr><th>Demand response<small>max hourly ramp · load factor</small></th><td>536.30 MW/h<small>89.62%</small></td><td><b>489.20 MW/h</b><small>92.66%</small></td><td class="prop">686.02 MW/h<small>92.66%</small></td></tr>
+<tr><th>Operational cost*<small>hypothetical exposure index</small></th><td>0%</td><td><b>−0.31%</b></td><td class="prop">−0.30%</td></tr>
+</tbody></table></div>
+<p class="pnote">*Unit-less MATLAB index under assumed weights; no tariff or cost data, so no monetary saving is claimed. Bold marks the better value in each row.</p>
+<div class="pchange"><h3>What changed?</h3><ul>
+<li><strong>Planning layer:</strong> the K = 5 Fourier curve decides which hours to shift and by how much; the shift is applied to the measured load (Fourier alone places the peak at 14:00, not 13:00).</li>
+<li><strong>Gain:</strong> same peak cut on clean data, more of it kept under noisy input (+0.33 pp mean; worst 5%: 2.43% vs 1.65%; 90 wins, 97 ties, 13 losses).</li>
+<li><strong>Limits:</strong> moving averages reach similar results (3.17%), so the benefit comes from smoothing; the price is a steeper ramp (686 vs 489 MW/h).</li></ul></div></div></section>
+</div>
+<div class="pcol">
+<section class="pcard grow"><h2 class="pbar">Methodology &amp; mathematical model</h2><div class="pbody"><p class="psub">Proposed application</p>
+<p>A Fourier-guided demand-response framework for smart-grid load management. The model identifies peak and off-peak periods using harmonic reconstruction and redistributes flexible loads under predefined constraints, aiming to reduce peak demand, improve load distribution and keep daily energy balanced. Future integration with AMI<sup><a class="cite" href="#ref-ami" data-ref="[4] U.S. Department of Energy, Advanced Metering Infrastructure and Customer Systems, 2016.">[4]</a></sup> could support adaptive scheduling.</p>
+<p class="psub">Mathematical representation</p>
 <p>The hourly demand curve (T = 24 h) is modeled as a truncated Fourier series:</p>
-<div aria-label="The fitted load is the daily mean plus a sum of cosine and sine terms." class="equation">P̂<sub>K</sub>(t) = a<sub>0</sub> + ∑<sub>k=1</sub><sup>K</sup> [a<sub>k</sub> cos(2πkt/T) + b<sub>k</sub> sin(2πkt/T)],&#8195;A<sub>k</sub> = √(a<sub>k</sub>² + b<sub>k</sub>²),&#8195;φ<sub>k</sub> = atan2(−b<sub>k</sub>, a<sub>k</sub>)</div>
-<p>A<sub>k</sub> (MW) measures the size of each daily cycle (period T/k hours) and φ<sub>k</sub> its timing, so each term can be written A<sub>k</sub> cos(2πkt/T + φ<sub>k</sub>). Coefficients are computed numerically from the N = 24 hourly samples. For the Riyadh profile, a<sub>0</sub> = 12,645.53 MW and the fundamental has A<sub>1</sub> = 996.88 MW and φ<sub>1</sub> = 145.33°; it carries about 89% of the variation energy of the five modeled harmonics. Orders K = 1 to 7 were compared: the 24-hour harmonic alone explains 86.80% of hourly variation, K = 5 explains 97.27% (RMSE 125.12 MW) and is used for control, and K = 7 is reported as exploratory.</p>
-<p><strong>Peak timing from the phase.</strong> The fundamental peaks when its angle completes a full cycle:</p>
-<div class="equation" aria-label="t peak equals two pi minus 2.5365, divided by two pi, times 24, about 14.3 hours">t<sub>peak</sub> = (2π − φ<sub>1</sub>) / 2π × 24 = (2π − 2.5365) / 2π × 24 ≈ 14.3 h</div>
-<p>The phase places the smoothed peak in the early afternoon, about an hour after the measured 13:00 peak. This is why the proposed method uses the Fourier curve to plan the shift but applies the shift to the measured load.</p>
-<p><strong>Demand-response problem.</strong> With u(t) the load removed and s(t) the load returned, the schedule minimizes the peak:</p>
-<div class="equation" aria-label="Minimize the maximum over t of P minus u plus s, subject to limits and equal energy">min<sub>u,s</sub> P<sub>peak</sub> = max<sub>t∈[0,T]</sub> [P(t) − u(t) + s(t)]<br/>0 ≤ u(t) ≤ u<sub>max</sub>,&#8195;s(t) = 0 for t ∉ W,&#8195;s(t) ≤ P<sub>cap</sub> − P(t) for t ∈ W,&#8195;∫<sub>0</sub><sup>T</sup> u(t) dt = ∫<sub>0</sub><sup>T</sup> s(t) dt</div>
-<p>W is the set of receiving hours. The optimal shave has the threshold form u*(t) = P(t) − P<sub>cap</sub> where P(t) &gt; P<sub>cap</sub> and 0 otherwise, with a Lagrange multiplier balancing the shifted energy against the peak constraint. Here the budget is 2,124.45 MWh (0.7% of daily energy), moved from six donor hours to six receiving hours, with every hourly change limited to u<sub>max</sub> = 464.06 MW (4% of the minimum hourly load).</p>
-</section>
-
-<section id="experiment">
-<h2><span>6</span>Methods compared</h2>
-<ul class="method-list">
-<li><strong>Fourier decomposition only</strong> models the daily cycle but moves no load; it is the modeling baseline.</li>
-<li><strong>Peak shaving only</strong> (direct scheduling) selects the six highest and six lowest measured hours and allocates the shift within the hourly limit using a numerical level search.</li>
-<li><strong>Proposed: Fourier + peak shaving</strong> applies the same allocation rule but selects and sizes the hours from the K = 5 curve; the adjustments are then applied to the measured load.</li>
-<li><strong>Fixed-time</strong> scheduling is kept as a rule-based reference: equal shifts out of 12:00–17:00 into W = 00:00–05:00 (about 354 MW per hour).</li>
-</ul>
-<p>The four KPIs are energy consumption (daily energy and energy shifted), peak demand reduction, demand response (maximum hourly ramp and load factor) and operational cost. With no tariff or cost data, operational cost is represented by a unit-less MATLAB cost-exposure index under assumed weights, not by a monetary saving.</p>
-<h3 id="robustness">Synthetic-noise test</h3>
-<p>Gaussian noise with a standard deviation of 1% or 3% of mean load was added to the profile. In each of 200 paired trials per level, every method planned its schedule from the same noisy signal and was scored on the original profile. Fourier K3 and K5 fits and 3-hour and 5-hour moving averages were compared with peak shaving only. This is a stress test on one profile, not a field validation.</p>
-</section>
-
-<section id="findings">
-<h2><span>7</span>Results</h2>
-<p>On the clean profile, peak shaving only and the proposed method both lowered the 13:00 peak from 14,110.90 MW to 13,646.84 MW, a 3.29% (464.06 MW) reduction, while fixed-time scheduling reached 2.51%. All shifting methods moved 2,124.45 MWh and kept daily energy at 303,492.70 MWh, so the peak fell through load shifting, not saving. Load factor rose from 89.62% to 92.66% for both. Peak shaving only had the smaller maximum ramp, 489.20 MW/h, against 686.02 MW/h for the proposed method and 536.30 MW/h for the uncontrolled day. The cost-exposure index fell by 0.31% for peak shaving only and 0.30% for the proposed method.</p>
-<p>At 3% synthetic noise, the proposed method (K5) averaged a 3.17% reduction against 2.84% for peak shaving only, with a worst-5% trial of 2.43% against 1.65%, and 90 wins, 97 ties and 13 losses in 200 paired trials. At 1% noise all methods stayed close to the clean result. The <a href="results.html">Results</a> page presents each result interactively.</p>
-</section>
-
-<section id="discussion">
-<h2><span>8</span>Discussion</h2>
-<p><strong>What changed.</strong> Adding the Fourier planning layer does not improve the peak on clean data, where both shifting methods tie. Its benefit appears with noisy input, where it keeps more of the cut and has a higher low end. Moving averages reached similar means (3.17%), and Fourier K3 averaged slightly more (3.18%), so the gain comes from smoothing the input before scheduling rather than from the Fourier form alone. What Fourier adds is an interpretable model of the daily cycle: the amplitude sizes the shiftable variation and the phase locates the peak.</p>
-<p><strong>Trade-off.</strong> The proposed schedule changes load more abruptly, with a maximum ramp 40% above peak shaving only and above the uncontrolled day, which would add ramping duty for generation. Peak shaving only is slightly better on the cost proxy.</p>
-<p><strong>Limits.</strong> The study uses one digitized average profile, assumes the shifted load is available and flexible, and does not model comfort, tariffs or network constraints.</p>
-</section>
-
-<section id="conclusion">
-<h2><span>9</span>Conclusion and future work</h2>
-<p>Fourier-based harmonic modeling characterizes the daily demand pattern of Riyadh closely: the K = 5 model captures 97.27% of hourly variation. Used to guide peak shaving, it achieves the same 3.29% peak reduction as peak shaving alone without changing daily energy, and holds more of that reduction when the input is noisy, at the cost of steeper ramps. This shows the potential of combining mathematical load modeling with demand-side management for Saudi Arabia’s grid.</p>
-<p>Future work should test the framework on real AMI data across many summer days, with outdoor and indoor temperature, cooling demand, HVAC capacity, comfort limits and consumer behavior, and extend it toward adaptive, real-time demand response for large-scale smart-grid deployment.</p>
-</section>
-</article>
+<div class="peq"><span class="peq-n">(1)</span>P̂<sub>K</sub>(t) = a<sub>0</sub> + ∑<sub>k=1</sub><sup>K</sup> [a<sub>k</sub> cos(2πkt/T) + b<sub>k</sub> sin(2πkt/T)]</div>
+<div class="peq"><span class="peq-n">(2)</span>A<sub>k</sub> = √(a<sub>k</sub>² + b<sub>k</sub>²),&#8195;φ<sub>k</sub> = atan2(−b<sub>k</sub>, a<sub>k</sub>)</div>
+<p>A<sub>k</sub> (MW) is the size of each daily cycle (period T/k h) and φ<sub>k</sub> its timing. From the N = 24 samples: a<sub>0</sub> = 12,645.53 MW, A<sub>1</sub> = 996.88 MW, φ<sub>1</sub> = 145.33°; the fundamental carries ≈89% of the modeled variation. K = 1 explains 86.80% of hourly variation; K = 5 explains 97.27% (RMSE 125.12 MW) and is used for control.</p>
+<div class="peq"><span class="peq-n">(3)</span>t<sub>peak</sub> = (2π − φ<sub>1</sub>) / 2π × 24 = (2π − 2.5365) / 2π × 24 ≈ 14.3 h</div>
+<p>The phase places the smoothed peak about an hour after the measured 13:00 peak, which is why the plan is applied to the measured load.</p>
+<p class="psub">Demand-response problem</p>
+<div class="peq"><span class="peq-n">(4)</span>min<sub>u,s</sub> max<sub>t</sub> [P(t) − u(t) + s(t)]<br/><small>0 ≤ u(t) ≤ u<sub>max</sub> · s(t) = 0 for t ∉ W · s(t) ≤ P<sub>cap</sub> − P(t) for t ∈ W · ∫u dt = ∫s dt</small></div>
+<p>u(t) is load removed, s(t) load returned and W the receiving hours. The optimal shave has the threshold form u*(t) = P(t) − P<sub>cap</sub> where P(t) &gt; P<sub>cap</sub>, with u<sub>max</sub> = 464.06 MW.</p>
+<p class="psub">Methods compared</p>
+<ul class="plist"><li><strong>Fourier only:</strong> models the cycle, moves no load.</li><li><strong>Peak shaving only:</strong> shifts between the six highest and six lowest measured hours.</li><li><strong>Proposed:</strong> same rule, hours chosen and sized from the K = 5 curve.</li><li><strong>Fixed-time</strong> (reference): 12:00–17:00 into 00:00–05:00.</li></ul>
+<figure class="pfig"><img src="assets/figs/fig1-fourier-fit.png" alt="Digitized hourly load and the K = 5 Fourier reconstruction, with hourly residuals" loading="lazy"/><figcaption><b>Figure 1.</b> Fourier reconstruction with K = 5 harmonics and hourly residuals.</figcaption></figure></div></section>
+</div>
+<div class="pcol">
+<section class="pcard "><h2 class="pbar">Results &amp; discussion</h2><div class="pbody"><p>On the clean profile, peak shaving only and the proposed method cut the 13:00 peak by the same 464.06 MW (−3.29%), shifting 2,124.45 MWh with daily energy unchanged. Fourier decomposition alone reproduces the curve (RMSE 125.12 MW, 97.27% explained) but moves no load. The proposed method’s advantage appears under 3% synthetic noise: a mean reduction of 3.17% vs 2.84%, and 2.43% vs 1.65% in the worst 5% of trials. Moving averages reached similar means (3.17%), so the gain comes from smoothing; Fourier adds an interpretable amplitude–phase model. The trade-off is a steeper maximum ramp (686 vs 489 MW/h). This is an illustrative simulation on one digitized profile, not field validation.</p>
+<p class="psub">Graphs</p>
+<figure class="pfig"><img src="assets/figs/fig2-matched-dr.png" alt="Hourly load for no control and the three schedules" loading="lazy"/><figcaption><b>Figure 2.</b> Matched demand response: the 13:00 peak falls 464.06 MW (−3.29%) for peak shaving only and the proposed method.</figcaption></figure>
+<figure class="pfig"><img src="assets/figs/fig3-hourly-control.png" alt="Hourly load removed and returned by the proposed method" loading="lazy"/><figcaption><b>Figure 3.</b> Proposed method, hourly control: load removed (orange) and returned (teal), 2,124.45 MWh shifted.</figcaption></figure>
+<div class="pfig-pair"><figure class="pfig"><img src="assets/figs/fig4a-noise-outcomes.png" alt="Wins, ties and losses against peak shaving only" loading="lazy"/></figure><figure class="pfig"><img src="assets/figs/fig4b-noise-reduction.png" alt="Mean and worst-5% peak reduction under noise" loading="lazy"/></figure></div>
+<p class="pcap"><b>Figure 4.</b> Synthetic noise at 3%: outcomes against peak shaving only in 200 paired trials (left) and mean and 5th-percentile peak reduction (right).</p>
+<p><a class="pbtn" href="results.html">Explore every result interactively →</a></p></div></section>
+<section class="pcard grow"><h2 class="pbar">Study scope &amp; data</h2><div class="pbody"><ul class="pscope">
+<li><span>Input</span><div>24 hourly values of Riyadh’s total regional load, digitized from an average summer day in 2017<sup><a class="cite" href="#ref-load" data-ref="[2] A. Alshahrani, S. Omer, and Y. Su, “An Investigation into the Potential of Hosting Capacity and the Frequency Stability of a Regional Grid with Increasing Penetration Level of Large-Scale PV Systems,” Electronics, 10(11), 1254, 2021, Fig. 2.">[2]</a></sup>. Not AC-only, not meter data.</div></li>
+<li><span>Baseline</span><div>Peak 14,110.90 MW at 13:00 · mean 12,645.53 MW · 303,492.70 MWh per day.</div></li>
+<li><span>Budget</span><div>2,124.45 MWh (0.7% of daily energy), six donor hours to six receiving hours.</div></li>
+<li><span>Limit</span><div>±464.06 MW per hour (4% of the minimum hourly load).</div></li>
+<li><span>Stress test</span><div>1% and 3% synthetic noise, 200 paired trials per level.</div></li>
+<li><span>Not modeled</span><div>Tariffs, comfort limits, network constraints.</div></li></ul></div></section>
+</div>
+<section class="pcard span2"><h2 class="pbar">Conclusion &amp; future work</h2><div class="pbody"><div class="pconc"><div><p class="psub">Conclusion</p><p>Fourier-based harmonic modeling characterizes Riyadh’s daily demand pattern closely: the K = 5 model captures 97.27% of hourly variation. Used to guide peak shaving, it matches peak shaving alone on the 3.29% peak reduction without changing daily energy, and holds more of that reduction when the input is noisy, at the cost of steeper ramps.</p></div>
+<div><p class="psub">Future work</p><p>Test the framework on real AMI data across many summer days, with outdoor and indoor temperature, cooling demand, HVAC capacity, comfort limits and consumer behavior, and extend it toward adaptive, real-time demand response for large-scale deployment.</p></div></div></div></section>
+<section class="pcard "><h2 class="pbar">References</h2><div class="pbody"><div class="prefs"><figure class="pqr"><img src="assets/qr-references.png" alt="QR code to the team reference folder"/><figcaption>Scan for the reference PDFs</figcaption></figure><ol class="preflist"><li id="ref-cooling">J. Alshahrani and P. Boait, “Reducing High Energy Demand Associated with Air-Conditioning Needs in Saudi Arabia,” <cite>Energies</cite>, 12(1), 87, 2019. <a href="https://doi.org/10.3390/en12010087" target="_blank" rel="noopener">Link</a></li><li id="ref-load">A. Alshahrani, S. Omer, and Y. Su, “An Investigation into the Potential of Hosting Capacity and the Frequency Stability of a Regional Grid with Increasing Penetration Level of Large-Scale PV Systems,” <cite>Electronics</cite>, 10(11), 1254, 2021, Fig. 2. <a href="https://doi.org/10.3390/electronics10111254" target="_blank" rel="noopener">Link</a></li><li id="ref-fourier">E. Yukseltan, A. Yucekaya, and A. H. Bilge, “Hourly electricity demand forecasting using Fourier analysis with feedback,” <cite>Energy Strategy Reviews</cite>, 31, 100524, 2020. <a href="https://doi.org/10.1016/j.esr.2020.100524" target="_blank" rel="noopener">Link</a></li><li id="ref-ami">U.S. Department of Energy, <cite>Advanced Metering Infrastructure and Customer Systems</cite>, 2016. <a href="https://www.energy.gov/sites/default/files/2016/12/f34/AMI%20Summary%20Report_09-26-16.pdf" target="_blank" rel="noopener">Link</a></li><li id="ref-grid">National Grid SA and Marafiq, <cite>The Saudi Arabian Grid Code</cite>, May 2026, §§2.10.2.1, 2.14, 4.5 and 7.7.2. <a href="https://www.se.com.sa/-/media/sec/About-Us/National-Grid-SA/Saudi-Arabian-Grid-Code-Guide/English/SAGC-Grid-Code-May-2026.ashx" target="_blank" rel="noopener">Link</a></li><li id="ref-krarti">M. Krarti, “Evaluation of occupancy-based temperature controls on energy performance of KSA residential buildings,” <cite>Energy and Buildings</cite>, 220, 110047, 2020. <a href="https://doi.org/10.1016/j.enbuild.2020.110047" target="_blank" rel="noopener">Link</a></li><li id="ref-maqbool">S. D. Maqbool, T. P. I. Ahamed, E. Al-Ammar, and N. H. Malik, “Demand response in Saudi Arabia,” in <cite>Proc. Int. Conf. Electric Power and Energy Conversion Systems (EPECS)</cite>, IEEE, 2011.</li><li id="ref-dhar">A. Dhar, T. A. Reddy, and D. E. Claridge, “A Fourier series model to predict hourly heating and cooling energy use in commercial buildings with outdoor temperature as the only weather variable,” <cite>Journal of Solar Energy Engineering</cite>, 121(1), 47–53, 1999.</li><li id="ref-alrasheedi">A. Alrasheedi and A. Almalaq, “Hybrid Deep Learning Applied on Saudi Smart Grids for Short-Term Load Forecasting,” <cite>Mathematics</cite>, 10(15), 2666, 2022. <a href="https://doi.org/10.3390/math10152666" target="_blank" rel="noopener">Link</a></li><li id="ref-sec">Saudi Electricity Company, <cite>Environmental, Social and Governance (ESG) Report</cite>.</li><li id="ref-gastat-elec">General Authority for Statistics (GASTAT), <cite>Electrical Energy Statistics 2024</cite>.</li><li id="ref-gastat-house">General Authority for Statistics (GASTAT), <cite>Household Energy Statistics 2023</cite>.</li></ol></div></div></section>
+</div>
 </main>
 <footer class="site-footer">
 <div class="shell footer-grid">
