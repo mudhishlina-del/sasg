@@ -28,7 +28,7 @@
 <div class="hero-copy">
 <p class="kicker">Results <span>·</span> Total regional load <span>·</span> Illustrative simulation</p>
 <h1 id="results-title">The 13:00 peak fell by <em class="nowrap">464 MW</em></h1>
-<p class="dek">Direct and Fourier-guided scheduling cut the simulated peak by the same amount, 3.29%, by moving 2,124 MWh of afternoon load into cooler hours. Fixed-time scheduling reached 2.51%. The tie breaks on smoothness: Direct’s largest hour-to-hour change is 489 MW/h vs 686 MW/h.</p>
+<p class="dek">Peak shaving only and the proposed method (Fourier + peak shaving) cut the simulated peak by the same 3.29%, moving 2,124 MWh of afternoon load into cooler hours. The proposed method holds more of that cut when the input is noisy; peak shaving only changes load more gently (489 vs 686 MW/h).</p>
 <dl class="hero-kpis" aria-label="Headline results">
 <div><dt>Original peak</dt><dd>14,110.90<small>MW</small></dd></div>
 <div class="hot"><dt>Controlled peak</dt><dd>13,646.84<small>MW</small></dd></div>
@@ -49,6 +49,7 @@
 <div class="shell hero-foot">
 <p class="scope">Input: 24 hourly estimates digitized from a published average summer-day profile of Riyadh’s <strong>total regional load</strong> (2017).<sup><a aria-label="Reference 2" href="references.html#ref-load">[2]</a></sup> It does not isolate air-conditioning demand and is not smart-meter data. Daily energy stays at 303,492.70 MWh in every schedule.</p>
 <nav class="section-index" aria-label="Results sections">
+<a href="#compare"><span>00</span>Three methods</a>
 <a href="#control"><span>01</span>Demand response</a>
 <a href="#fourier"><span>02</span>Fourier fit</a>
 <a href="#harmonics"><span>03</span>Harmonics</a>
@@ -62,12 +63,23 @@
 <div class="shell">
 <p class="error-banner" hidden="" id="verification" role="alert"></p>
 
+<!-- 00 · Three-method comparison -->
+<section class="study" id="compare" aria-labelledby="compare-title">
+<header class="study-head">
+<p class="study-num">00 · Three methods, four KPIs</p>
+<h2 id="compare-title">What does combining Fourier with peak shaving change?</h2>
+<p><strong>Fourier only</strong> models the daily cycle but moves no load. <strong>Peak shaving only</strong> shifts load using the measured hours. The <strong>proposed method</strong> plans which hours to shift, and by how much, from the five-harmonic curve, then applies the shift to the measured load. All shifting methods use the same 2,124.45 MWh budget and 464.06 MW hourly limit.</p>
+</header>
+<div class="kpi-compare" id="kpi-compare"></div>
+<aside class="callout what-changed"><strong>What changed?</strong> Adding the Fourier planning layer leaves the clean-data peak cut unchanged (3.29% for both) but makes it more robust to noisy input: 3.17% vs 2.84% mean and 2.43% vs 1.65% in the worst 5% of trials at 3% synthetic noise. Moving averages give similar robustness, so the benefit is smoothing; Fourier adds an interpretable amplitude–phase model. The cost is a steeper maximum ramp, 686 vs 489 MW/h.</aside>
+</section>
+
 <!-- 01 · Matched demand response -->
 <section class="study" id="control" aria-labelledby="control-title">
 <header class="study-head">
 <p class="study-num">01 · Matched demand response</p>
 <h2 id="control-title">How does each method reshape the day?</h2>
-<p>All three schedules move 2,124.45 MWh with the same 464.06 MW hourly limit. Drag across the chart, tap it, or use the slider to read any hour.</p>
+<p>All three schedules move 2,124.45 MWh with the same 464.06 MW hourly limit. Peak shaving only is direct scheduling on the measured load; the proposed method is Fourier-guided scheduling. Drag across the chart, tap it, or use the slider to read any hour.</p>
 </header>
 <div class="toolbar">
 <div class="choices legend-toggles" id="profile-choices" aria-label="Show or hide profiles"></div>
@@ -79,7 +91,7 @@
 <figure class="figure">
 <div class="chart" id="dr-chart"></div>
 <div class="scrub"><label for="dr-hour">Hour</label><input id="dr-hour" type="range" min="0" max="23" step="1" value="13"/></div>
-<figcaption>No control is the digitized input; the three schedules are simulation results. Shaded bands are the fixed-time schedule’s donor (12:00–17:00) and receiving (00:00–05:00) hours. Direct and Fourier-guided choose their own hours. The dashed line at 13,500 MW is an analytical threshold for this study.</figcaption>
+<figcaption>No control is the digitized input; the three schedules are simulation results. Shaded bands are the fixed-time schedule’s donor (12:00–17:00) and receiving (00:00–05:00) hours. Peak shaving only and the proposed method choose their own hours. The dashed line at 13,500 MW is an analytical threshold for this study.</figcaption>
 </figure>
 <aside class="readout" id="dr-readout" aria-live="polite" aria-label="Load at the selected hour"></aside>
 </div>
@@ -174,11 +186,11 @@
 <p class="callout" id="noise-callout"></p>
 <div class="pair">
 <figure class="figure"><div class="chart" id="outcome-chart"></div>
-<figcaption>Paired outcomes relative to Direct in the same trials.</figcaption></figure>
+<figcaption>Paired outcomes relative to peak shaving only in the same trials.</figcaption></figure>
 <figure class="figure"><div class="chart" id="spread-chart"></div>
 <figcaption>Mean peak reduction (filled) and the 5th-percentile trial (open), the low end of the range.</figcaption></figure>
 </div>
-<p class="note">Moving-average curves (3 h and 5 h) are smoothing benchmarks. Their results are close to Fourier K5, so the advantage over Direct comes from smoothing in general and is not specific to Fourier. These are results under simulated noise, not field validation.</p>
+<p class="note">Moving-average curves (3 h and 5 h) are smoothing benchmarks. Their results are close to Fourier K5, so the advantage over peak shaving only comes from smoothing in general and is not specific to Fourier. These are results under simulated noise, not field validation.</p>
 </section>
 
 <!-- 05 · Hourly demand control -->

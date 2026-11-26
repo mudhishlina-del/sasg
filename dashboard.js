@@ -38,8 +38,8 @@
   const series = [
     { key: 'base', name: 'No control', color: C.slate, dash: '2 4', width: 2, marker: 'open', row: D.kpis[0], values: base },
     { key: 'fixed', name: 'Fixed-time', color: C.fixed, dash: '8 5', width: 2.4, field: 'Fixed_Time_MW', row: D.kpis[2] },
-    { key: 'direct', name: 'Direct', color: C.direct, dash: '', width: 2.6, field: 'Direct_DR_MW', row: D.kpis[3] },
-    { key: 'fourier', name: 'Fourier-guided', color: C.fourier, dash: '', width: 2.8, marker: 'dot', field: 'Proposed_Fourier_DR_MW', row: D.kpis[4] }
+    { key: 'direct', name: 'Peak shaving only', color: C.direct, dash: '', width: 2.6, field: 'Direct_DR_MW', row: D.kpis[3] },
+    { key: 'fourier', name: 'Proposed: Fourier + shaving', color: C.fourier, dash: '', width: 2.8, marker: 'dot', field: 'Proposed_Fourier_DR_MW', row: D.kpis[4] }
   ];
   series.slice(1).forEach(s => { s.values = D.profiles.map(r => r[s.field]); });
   const reportName = { fixed: 'Fixed-time DR', direct: 'Direct DR', fourier: 'Fourier-guided DR' };
@@ -176,15 +176,38 @@
       `<div class="peak-bar-track" aria-hidden="true"><span style="width:${100 * s.row.Peak_Reduction_pct / 4}%;background:${s.color}"></span></div>` +
       `<p class="peak-bar-sub">${fmt(s.row.Peak_MW)} MW peak · ramp ${fmt(s.row.Max_Ramp_MW_per_h)} MW/h</p></div>`).join('') +
       '<p class="peak-scale">Scale: 0–4% peak reduction</p>';
-    el('hero-tie').innerHTML = '<strong>Direct and Fourier-guided tie on peak.</strong> Direct’s largest hour-to-hour change is smaller: ' +
+    el('hero-tie').innerHTML = '<strong>Peak shaving only and the proposed method tie on peak.</strong> Peak shaving only has the smaller largest hour-to-hour change: ' +
       fmt(direct.Max_Ramp_MW_per_h) + ' vs ' + fmt(guided.Max_Ramp_MW_per_h) + ' MW/h.';
     el('finding-fit').innerHTML = 'Five harmonics explain <strong>' + pct(k5.explained) + '</strong> of hourly variation with <strong>' + fmt(k5.rmse) + ' MW</strong> RMSE. The 24-hour wave alone explains ' + pct(fit(1).explained) + '.';
     el('finding-energy').innerHTML = 'Each method moved <strong>' + fmt(direct.Shifted_Energy_MWh) + ' MWh</strong> to other hours. Daily energy stayed at ' + fmt(energy) + ' MWh, so the peak fell through redistribution, not savings.';
     el('finding-noise').innerHTML = 'With 3% synthetic noise on the one profile, Fourier K5 averaged <strong>' + pct(nK.Mean_PeakReduction_pct) + '</strong> vs ' + pct(nD.Mean_PeakReduction_pct) +
-      ' for Direct: ' + nK.Wins_vs_Direct_n + ' wins, ' + nK.Ties_vs_Direct_n + ' ties, ' + nK.Losses_vs_Direct_n + ' losses in 200 paired trials.';
+      ' for peak shaving only: ' + nK.Wins_vs_Direct_n + ' wins, ' + nK.Ties_vs_Direct_n + ' ties, ' + nK.Losses_vs_Direct_n + ' losses in 200 paired trials.';
     return;
   }
   if (!el('dr-chart')) return;
+
+  if (el('kpi-compare')) {
+    const fo = D.kpis[1], ps = series[2].row, pr = series[3].row;
+    const nD = D.audit.find(r => r.Noise_pct === 3 && r.Method === 'Direct');
+    const nK = D.audit.find(r => r.Noise_pct === 3 && r.Method === 'Fourier K5');
+    const cell = (v, sub, best) => `<div class="kc-v${best ? ' best' : ''}"><strong>${v}</strong>${sub ? `<small>${sub}</small>` : ''}</div>`;
+    const card = (title, def, a, b, c, note) => `<article class="kc"><h3>${title}</h3><p class="kc-def">${def}</p>` +
+      `<div class="kc-row"><span>Fourier only</span>${a}</div><div class="kc-row"><span>Peak shaving only</span>${b}</div><div class="kc-row prop"><span>Proposed</span>${c}</div>` +
+      (note ? `<p class="kc-note">${note}</p>` : '') + '</article>';
+    el('kpi-compare').innerHTML =
+      card('Energy consumption', 'Daily energy and energy moved',
+        cell(fmt(fo.Daily_Energy_MWh) + ' MWh', 'nothing shifted'), cell(fmt(ps.Daily_Energy_MWh) + ' MWh', fmt(ps.Shifted_Energy_MWh) + ' MWh shifted'), cell(fmt(pr.Daily_Energy_MWh) + ' MWh', fmt(pr.Shifted_Energy_MWh) + ' MWh shifted'),
+        'Energy is conserved: the peak falls through load shifting, not saving.') +
+      card('Peak demand reduction', 'Clean profile · 3% synthetic noise (mean, worst 5%)',
+        cell('0%', fmt(fo.Peak_MW) + ' MW peak'), cell(pct(ps.Peak_Reduction_pct), 'noise: ' + pct(nD.Mean_PeakReduction_pct) + ' · ' + pct(nD.FifthPercentile_pct)), cell(pct(pr.Peak_Reduction_pct), 'noise: ' + pct(nK.Mean_PeakReduction_pct) + ' · ' + pct(nK.FifthPercentile_pct), true),
+        'Tie on clean data; the proposed method holds more of the cut under noise. Moving averages do about as well.') +
+      card('Demand response', 'Largest hour-to-hour change · load factor',
+        cell(fmt(fo.Max_Ramp_MW_per_h) + ' MW/h', pct(100 * fo.Load_Factor)), cell(fmt(ps.Max_Ramp_MW_per_h) + ' MW/h', pct(100 * ps.Load_Factor), true), cell(fmt(pr.Max_Ramp_MW_per_h) + ' MW/h', pct(100 * pr.Load_Factor)),
+        'Same flatter day, but the proposed schedule ramps harder than even the uncontrolled day.') +
+      card('Operational cost', 'Hypothetical cost-exposure index, reduction',
+        cell('0%', ''), cell(ps.Cost_Exposure_Change_pct.toFixed(2) + '%', '', true), cell(pr.Cost_Exposure_Change_pct.toFixed(2) + '%', ''),
+        'A proxy computed under assumed weights. No tariff data, so no monetary saving is claimed.');
+  }
 
   try { verify(); console.info('SASG26: data checks passed'); }
   catch (e) { const b = el('verification'); b.hidden = false; b.textContent = 'Data check failed: ' + e.message; console.error(e); }
@@ -249,7 +272,7 @@
     el('strip-readout').textContent = hour(t) + ' · ' + fmt(base[t]) + ' MW';
     heroLegend();
   }
-  const heroLegend = () => { el('hero-legend').innerHTML = `<span class="lg-item"><span class="lg-base"></span>Baseline <b>${fmt(base[hero.hour])} MW</b></span><span class="lg-item"><span class="lg-dash"></span>Fourier-guided <b>${fmt(guided.values[hero.hour])} MW</b></span><span class="lg-note">Radius = load, 11,000–14,500 MW · drag the clock or the strip</span>`; };
+  const heroLegend = () => { el('hero-legend').innerHTML = `<span class="lg-item"><span class="lg-base"></span>Baseline <b>${fmt(base[hero.hour])} MW</b></span><span class="lg-item"><span class="lg-dash"></span>Proposed <b>${fmt(guided.values[hero.hour])} MW</b></span><span class="lg-note">Radius = load, 11,000–14,500 MW · drag the clock or the strip</span>`; };
   heroLegend();
 
   /* ===================================================================
@@ -329,7 +352,7 @@
   /* row charts (peak, ramp, secondary) */
   function rowChart(host, w, o) {
     const narrow = w < 480;
-    const labelW = narrow ? 134 : 140, valW = o.valW ?? (narrow ? 70 : 92), rowH = 34;
+    const labelW = narrow ? 150 : 205, valW = o.valW ?? (narrow ? 70 : 92), rowH = 34;
     const m = { l: labelW, r: valW, t: o.title ? 40 : 12, b: 30 };
     const h = m.t + o.rows.length * rowH + m.b;
     const [d0, d1] = o.domain, x = v => m.l + (w - m.l - m.r) * (v - d0) / (d1 - d0);
@@ -352,7 +375,7 @@
 
   mount('peak-chart', (host, w) => rowChart(host, w, {
     title: 'Peak reduction', sub: 'Higher is better', domain: [0, 4], ticks: [0, 1, 2, 3, 4], tickFmt: v => v + '%', stemFrom: 0,
-    aria: 'Peak reduction: Fixed-time 2.51%, Direct 3.29%, Fourier-guided 3.29%.',
+    aria: 'Peak reduction: Fixed-time 2.51%, peak shaving only 3.29%, proposed Fourier plus shaving 3.29%.',
     rows: series.map(s => ({ ...s, value: s.row.Peak_Reduction_pct, label: pct(s.row.Peak_Reduction_pct), highlight: s.key === 'direct' || s.key === 'fourier' })),
     annotate: ({ x, m, rowH, w }) => {
       const xr = x(series[2].row.Peak_Reduction_pct) + 12, y1 = m.t + 2 * rowH + rowH / 2, y2 = m.t + 3 * rowH + rowH / 2;
@@ -360,8 +383,8 @@
     }
   }));
   mount('ramp-chart', (host, w) => rowChart(host, w, {
-    title: 'Maximum hourly ramp (MW/h)', sub: w < 360 ? 'Lower is smoother' : 'Lower is smoother · Direct is ' + fmt(series[3].row.Max_Ramp_MW_per_h - series[2].row.Max_Ramp_MW_per_h) + (w < 520 ? ' lower' : ' MW/h below Fourier-guided'), domain: [0, 800], ticks: [0, 200, 400, 600, 800], tickFmt: v => fmt(v, 0), stemFrom: 0,
-    aria: 'Maximum hourly ramp: no control and fixed-time 536.30, Direct 489.20, Fourier-guided 686.02 MW per hour.',
+    title: 'Maximum hourly ramp (MW/h)', sub: w < 360 ? 'Lower is smoother' : 'Lower is smoother · Shaving only is ' + fmt(series[3].row.Max_Ramp_MW_per_h - series[2].row.Max_Ramp_MW_per_h) + (w < 520 ? ' lower' : ' MW/h below the proposed'), domain: [0, 800], ticks: [0, 200, 400, 600, 800], tickFmt: v => fmt(v, 0), stemFrom: 0,
+    aria: 'Maximum hourly ramp: no control and fixed-time 536.30, peak shaving only 489.20, proposed 686.02 MW per hour.',
     rows: series.map(s => ({ ...s, value: s.row.Max_Ramp_MW_per_h, label: fmt(s.row.Max_Ramp_MW_per_h), highlight: s.key === 'direct' || s.key === 'fourier' })),
   }));
 
@@ -378,6 +401,11 @@
       mode: 'bar', domain: [0, 2500], ticks: [0, 500, 1000, 1500, 2000, 2500], tickFmt: v => fmt(v, 0), aria: 'Energy shifted by method in MWh', valW: w < 480 ? 92 : 120,
       rows: series.map(s => ({ ...s, value: s.row.Shifted_Energy_MWh, label: fmt(s.row.Shifted_Energy_MWh) + ' MWh' }))
     }), caption: 'Energy moved from donor hours to receiving hours, in MWh. Daily energy is 303,492.70 MWh for all four profiles: load is redistributed, not reduced.' }
+  ,
+    { name: 'Cost-exposure index', draw: (host, w) => rowChart(host, w, {
+      mode: 'bar', domain: [0, 0.4], ticks: [0, 0.1, 0.2, 0.3, 0.4], tickFmt: v => v.toFixed(1) + '%', aria: 'Reduction in the hypothetical cost-exposure index by method', valW: w < 480 ? 70 : 92,
+      rows: series.map(s => ({ ...s, value: s.row.Cost_Exposure_Change_pct, label: s.row.Cost_Exposure_Change_pct.toFixed(2) + '%' }))
+    }), caption: 'Reduction in a unit-less cost-exposure index computed in MATLAB under assumed weights. No tariff or cost data were available, so this is an operational-cost proxy, not a monetary saving. Peak shaving only scores slightly better than the proposed method.' }
   ];
   let secIndex = 0;
   const secChart = mount('secondary-chart', (host, w) => secondary[secIndex].draw(host, w));
@@ -553,17 +581,17 @@
      =================================================================== */
   const ns = { level: 3 };
   const noiseStyle = {
-    'Direct': { color: C.direct, name: 'Direct' }, 'Fourier K5': { color: C.fourier, name: 'Fourier K5', marker: 'dot' },
+    'Direct': { color: C.direct, name: 'Peak shaving only' }, 'Fourier K5': { color: C.fourier, name: 'Proposed (K5)', marker: 'dot' },
     'Fourier K3': { color: C.tealSoft, name: 'Fourier K3' }, 'Moving Average 3h': { color: C.slate, name: 'Moving avg 3 h', dash: '5 3' },
     'Moving Average 5h': { color: C.slate, name: 'Moving avg 5 h', dash: '1.5 3' }
   };
   const order = ['Direct', 'Fourier K5', 'Fourier K3', 'Moving Average 3h', 'Moving Average 5h'];
   const auditRows = () => order.map(n => D.audit.find(r => r.Noise_pct === ns.level && r.Method === n));
   const outcomeChart = mount('outcome-chart', (host, w) => {
-    const narrow = w < 480, rows = auditRows().slice(1), labelW = narrow ? 126 : 140, m = { l: labelW, r: 8, t: 50, b: 10 }, rowH = 38, h = m.t + rows.length * rowH + m.b;
+    const narrow = w < 480, rows = auditRows().slice(1), labelW = narrow ? 126 : 150, m = { l: labelW, r: 8, t: 50, b: 10 }, rowH = 38, h = m.t + rows.length * rowH + m.b;
     const x = n => m.l + (w - m.l - m.r) * n / 200;
-    let b = T(0, 15, 'Outcome vs Direct (of 200 trials)', 'ct');
-    const leg = [['Better', C.fourier], ['Tie', C.tie], ['Direct better', C.direct]];
+    let b = T(0, 15, 'Outcome vs peak shaving only (of 200 trials)', 'ct');
+    const leg = [['Better', C.fourier], ['Tie', C.tie], ['Shaving only better', C.direct]];
     let lx = 0; leg.forEach(([t, c]) => { b += R(lx, 26, 12, 12, c) + T(lx + 16, 36, t, 'lg'); lx += 16 + t.length * 6.6 + 14; });
     rows.forEach((r, i) => {
       const cy = m.t + i * rowH + rowH / 2, st = noiseStyle[r.Method];
@@ -573,7 +601,7 @@
         if (n > 0) { b += R(x(x0), cy - 11, x(x0 + n) - x(x0) - 1, 22, c); if (x(x0 + n) - x(x0) > 16) b += T((x(x0) + x(x0 + n)) / 2, cy + 4, n, 'seg', `text-anchor="middle" fill="${tc}"`); }
         x0 += n;
       });
-      if (r.Losses_vs_Direct_n > 0 && x(200) - x(200 - r.Losses_vs_Direct_n) <= 16) b += T(w - 2, cy - 14, r.Losses_vs_Direct_n + ' Direct better', 'ax sm', 'text-anchor="end"');
+      if (r.Losses_vs_Direct_n > 0 && x(200) - x(200 - r.Losses_vs_Direct_n) <= 16) b += T(w - 2, cy - 14, r.Losses_vs_Direct_n + ' shaving only better', 'ax sm', 'text-anchor="end"');
       if (r.Wins_vs_Direct_n > 0 && x(r.Wins_vs_Direct_n) - x(0) <= 16) b += T(x(0) + 2, cy - 14, r.Wins_vs_Direct_n + ' better', 'ax sm');
     });
     host.innerHTML = svg(w, h, 'Paired outcomes against Direct at ' + ns.level + '% noise', b);
@@ -599,8 +627,8 @@
   function noiseCallout() {
     const rows = auditRows(), d = rows[0], k = rows[1];
     el('noise-callout').innerHTML = ns.level === 3
-      ? `At 3% synthetic noise, Fourier K5 averaged <strong>${pct(k.Mean_PeakReduction_pct)}</strong> peak reduction vs <strong>${pct(d.Mean_PeakReduction_pct)}</strong> for Direct. It did better in ${k.Wins_vs_Direct_n} trials, tied in ${k.Ties_vs_Direct_n} and did worse in ${k.Losses_vs_Direct_n} of 200. Its 5th-percentile trial reached ${pct(k.FifthPercentile_pct)}, vs ${pct(d.FifthPercentile_pct)} for Direct, so its low end is also higher. Fourier K3 averaged slightly more, ${pct(rows[2].Mean_PeakReduction_pct)}, so K5 is not the best smoother in every case.`
-      : `At 1% synthetic noise, every method stays at about the noise-free ${pct(series[2].row.Peak_Reduction_pct)}. Direct averaged ${pct(d.Mean_PeakReduction_pct)} and Fourier K5 ${pct(k.Mean_PeakReduction_pct)}, with ${k.Ties_vs_Direct_n} ties in 200 trials. At this noise level the methods are effectively tied.`;
+      ? `At 3% synthetic noise, Fourier K5 averaged <strong>${pct(k.Mean_PeakReduction_pct)}</strong> peak reduction vs <strong>${pct(d.Mean_PeakReduction_pct)}</strong> for peak shaving only. It did better in ${k.Wins_vs_Direct_n} trials, tied in ${k.Ties_vs_Direct_n} and did worse in ${k.Losses_vs_Direct_n} of 200. Its 5th-percentile trial reached ${pct(k.FifthPercentile_pct)}, vs ${pct(d.FifthPercentile_pct)} for peak shaving only, so its low end is also higher. Fourier K3 averaged slightly more, ${pct(rows[2].Mean_PeakReduction_pct)}, and the 3 h and 5 h moving averages reached ${pct(rows[3].Mean_PeakReduction_pct)} and ${pct(rows[4].Mean_PeakReduction_pct)}: the gain comes from smoothing the noisy input before scheduling, not from the Fourier form alone. Fourier’s added value is an interpretable model of the daily cycle (amplitude and phase).`
+      : `At 1% synthetic noise, every method stays at about the noise-free ${pct(series[2].row.Peak_Reduction_pct)}. Peak shaving only averaged ${pct(d.Mean_PeakReduction_pct)} and Fourier K5 ${pct(k.Mean_PeakReduction_pct)}, with ${k.Ties_vs_Direct_n} ties in 200 trials. At this noise level the methods are effectively tied.`;
   }
   el('noise-choices').innerHTML = [1, 3].map(v => `<button type="button" data-v="${v}" aria-pressed="${v === ns.level}">${v}% synthetic noise</button>`).join('');
   el('noise-choices').addEventListener('click', e => {

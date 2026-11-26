@@ -513,3 +513,20 @@ nav a[aria-current=page]{color:var(--night);font-weight:650;border-bottom-color:
 }
 .paper .eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;line-height:1.4;color:var(--copper);margin:0}
 .hero h1.title-long{font-size:clamp(2rem,4.2vw,3.25rem);line-height:1.04}
+
+/* three-method KPI comparison */
+.kpi-compare{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:8px 0 18px}
+.kc{background:var(--paper);border:1px solid var(--edge);border-top:4px solid var(--copper);padding:14px 14px 12px}
+.kc h3{margin:0 0 2px;font-size:1.02rem;color:var(--navy)}
+.kc-def{margin:0 0 10px;font-size:.8rem;color:var(--muted)}
+.kc-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border-top:1px solid var(--edge);font-size:.85rem}
+.kc-row>span{color:var(--muted)}
+.kc-row.prop>span{color:var(--copper);font-weight:700}
+.kc-v{text-align:right}
+.kc-v strong{display:block;white-space:nowrap;font-family:var(--mono);font-size:.95rem;color:var(--navy)}
+.kc-v small{display:block;white-space:nowrap;font-size:.72rem;color:var(--muted)}
+.kc-v.best strong{color:var(--copper)}
+.kc-note{margin:8px 0 0;font-size:.78rem;color:var(--text);line-height:1.4}
+.what-changed{max-width:none}
+@media (max-width:1000px){.kpi-compare{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.kpi-compare{grid-template-columns:1fr}}
