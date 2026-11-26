@@ -7,11 +7,11 @@
 <meta name="theme-color" content="#1c1411"/>
 <title>Harmonic Modeling of Air-Conditioning Demand Using Peak Shaving and Fourier Decomposition Techniques · SASG26</title>
 <link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin=""/>
-<link href="styles.css?v=6" rel="stylesheet"/>
-<script defer="" src="data.js?v=6"></script>
-<script defer="" src="dashboard.js?v=6"></script>
+<link href="styles.css?v=7" rel="stylesheet"/>
+<script defer="" src="data.js?v=7"></script>
+<script defer="" src="dashboard.js?v=7"></script>
 </head>
-<body class="page-overview">
+<body class="page-overview page-ov2">
 <a class="skip" href="#top">Skip to content</a>
 <header class="top">
 <div class="shell institutions" aria-label="Affiliation and conference">
@@ -21,25 +21,182 @@
 </div>
 <div class="reading-bar"><div class="shell masthead"><nav aria-label="Site"><a href="index.html" aria-current="page">Overview</a><a href="research.html">Research</a><a href="results.html">Results</a><a href="references.html">References</a><a href="team.html">Team</a></nav></div></div>
 </header>
-<main class="shell" id="top"><header class="hero">
-<div>
-<p class="eyebrow">Riyadh · Total regional load · Load-shifting simulation</p>
-<h1 class="title-long">Harmonic Modeling of <em>Air-Conditioning Demand</em> Using Peak Shaving and Fourier Decomposition Techniques</h1>
-<p class="intro">Can a smoothed summer load curve help decide which hours to shift? We compared three demand-response schedules under the same energy budget and hourly limit, using 24 digitized hourly estimates of Riyadh’s total regional load.</p>
-<p class="cta-row"><a class="cta" href="results.html">Explore the results</a><a class="cta ghost" href="research.html">Read the research</a></p>
-<p class="byline">Department of Electrical Engineering · College of Engineering · Princess Nourah bint Abdulrahman University</p>
+<main id="top">
+<section class="ohero">
+<div class="shell ohero-grid">
+<div class="ohero-text">
+<p class="akicker">SASG26 · Riyadh · Summer load · Demand response</p>
+<h1>Harmonic Modeling of <em>Air-Conditioning Demand</em> Using Peak Shaving and Fourier Decomposition Techniques</h1>
+<p class="ohero-intro">Riyadh’s summer load peaks in the early afternoon, when air conditioning runs hardest. We broke the daily curve into Fourier harmonics and used them to plan which hours give up load and which take it, then compared that plan with plain peak shaving under the same energy budget.</p>
+<p class="cta-row"><a class="cta" href="results.html">Explore the results</a><a class="cta ghost light" href="research.html">Read the research</a></p>
+<p class="ohero-dept">Department of Electrical Engineering · College of Engineering · Princess Nourah bint Abdulrahman University</p>
 </div>
+<figure class="ohero-chart">
+<figcaption><span>One summer day in Riyadh</span><b id="ov-readout">13:00 · 14,110.90 MW</b></figcaption>
+<div class="ov-curve" id="ov-curve"></div>
+<div class="ov-legend"><span><i class="lg-area"></i>Measured load</span><span><i class="lg-k5"></i>Fourier K = 5</span><span><i class="lg-prop"></i>Proposed schedule</span><span><i class="lg-thr"></i>13,500 MW threshold</span></div>
+</figure>
+</div>
+</section>
+
+<div class="shell">
+<section class="ov-stats" aria-label="Headline numbers">
+<div><b data-count="peakcut" data-dec="2">0</b><span>MW</span><p>cut from the 13:00 peak</p></div>
+<div><b data-count="peakpct" data-dec="2">0</b><span>%</span><p>peak reduction, same as peak shaving only</p></div>
+<div><b data-count="shift" data-dec="2">0</b><span>MWh</span><p>moved to other hours, daily energy unchanged</p></div>
+<div><b data-count="explained" data-dec="2">0</b><span>%</span><p>of hourly variation explained by 5 harmonics</p></div>
+</section>
+
+<section class="ov-block">
+<header class="ov-head"><p class="akicker">How it works</p><h2>The study in four moves</h2></header>
+<ol class="ov-steps">
+<li><a href="research.html#introduction"><span class="ov-n">01</span>
+<svg viewBox="0 0 120 54" aria-hidden="true"><path d="M4 44 C24 44 30 40 42 30 S62 6 70 8 S88 30 116 40" fill="none" stroke="#d9480f" stroke-width="3" stroke-linecap="round"/><circle cx="68" cy="8" r="4" fill="#d9480f"/></svg>
+<h3>The problem</h3><p>Cooling drives a sharp afternoon peak; about 70% of summer home electricity goes to air conditioning.</p><em>Introduction →</em></a></li>
+<li><a href="research.html#model"><span class="ov-n">02</span>
+<svg viewBox="0 0 120 54" aria-hidden="true"><path d="M4 27 C19 5 34 5 49 27 S79 49 94 27 S109 5 116 16" fill="none" stroke="#d9480f" stroke-width="3" stroke-linecap="round"/><path d="M4 27 C11 17 18 17 25 27 S39 37 46 27 S60 17 67 27 S81 37 88 27 S102 17 116 27" fill="none" stroke="#e09b1a" stroke-width="2" stroke-dasharray="4 3"/></svg>
+<h3>The model</h3><p>A Fourier series with five harmonics gives the size (amplitude) and timing (phase) of the daily cycle.</p><em>Mathematical model →</em></a></li>
+<li><a href="results.html#control"><span class="ov-n">03</span>
+<svg viewBox="0 0 120 54" aria-hidden="true"><g fill="#2a8c84"><rect x="6" y="30" width="10" height="20"/><rect x="20" y="26" width="10" height="24"/><rect x="34" y="28" width="10" height="22"/></g><g fill="#d9480f"><rect x="76" y="10" width="10" height="40"/><rect x="90" y="6" width="10" height="44"/><rect x="104" y="12" width="10" height="38"/></g><path d="M70 20 C56 6 44 10 38 22" fill="none" stroke="#2a1c16" stroke-width="2"/><path d="M42 16 l-5 7 l8 1" fill="none" stroke="#2a1c16" stroke-width="2"/></svg>
+<h3>The shift</h3><p>Load leaves six afternoon peak hours and returns in six low-demand hours, never more than 464.06 MW in any hour.</p><em>Hourly schedules →</em></a></li>
+<li><a href="results.html#noise"><span class="ov-n">04</span>
+<svg viewBox="0 0 120 54" aria-hidden="true"><path d="M4 30 L10 24 L16 33 L22 20 L28 29 L34 18 L40 27 L46 15 L52 24 L58 12 L64 26 L70 16 L76 30 L82 22 L88 34 L94 26 L100 36 L106 28 L116 36" fill="none" stroke="#8c8178" stroke-width="1.6"/><path d="M4 30 C30 26 46 12 60 16 S96 34 116 34" fill="none" stroke="#d9480f" stroke-width="3" stroke-linecap="round"/></svg>
+<h3>The stress test</h3><p>200 paired trials with 3% synthetic noise check whether the smooth curve still plans well.</p><em>Noise trials →</em></a></li>
+</ol>
+</section>
+
+<section class="ov-block ov-findings">
 <aside aria-labelledby="peak-summary-title" class="peak-summary">
+<p class="akicker dark">Same budget, three schedules</p>
 <h2 id="peak-summary-title">How much did the peak fall?</h2>
 <p class="source" id="hero-baseline"></p>
 <div class="peak-bars" id="peak-bars"></div>
 <p class="peak-takeaway" id="hero-tie"></p>
 </aside>
-</header><section aria-label="Research findings" class="findings">
-<article><h2>Five waves capture the daily pattern</h2><p id="finding-fit"></p><a href="results.html#fourier">See the Fourier fit</a></article>
-<article><h2>All three methods shift the same energy</h2><p id="finding-energy"></p><a href="results.html#control">Compare the hourly schedules</a></article>
-<article><h2>Smoothing helped under synthetic noise</h2><p id="finding-noise"></p><a href="results.html#noise">See the paired trials</a></article>
+<div class="findings">
+<article><span class="f-tag">Model</span><h2>Five waves capture the daily pattern</h2><p id="finding-fit"></p><a href="results.html#fourier">See the Fourier fit →</a></article>
+<article><span class="f-tag">Energy</span><h2>All three methods shift the same energy</h2><p id="finding-energy"></p><a href="results.html#compare">Compare the four KPIs →</a></article>
+<article><span class="f-tag">Robustness</span><h2>Smoothing helped under synthetic noise</h2><p id="finding-noise"></p><a href="results.html#noise">See the paired trials →</a></article>
+</div>
 </section>
+
+<section class="ov-block">
+<header class="ov-head"><p class="akicker">Explore</p><h2>Everything in one place</h2></header>
+<div class="ov-explore">
+<a class="ox ox-research" href="research.html"><span class="akicker">Research</span><b>The full paper</b><p>Background, model, methods and the noise-test design, with every citation linked.</p><code>P̂(t) = a₀ + Σ [aₖ cos(2πkt/T) + bₖ sin(2πkt/T)]</code></a>
+<a class="ox ox-results" href="results.html"><span class="akicker">Results</span><b>Interactive charts</b><p>Drag through the day, change the harmonic order and replay the noise trials.</p>
+<svg viewBox="0 0 160 46" aria-hidden="true"><g fill="#f08a2c"><rect x="0" y="26" width="14" height="20"/><rect x="18" y="20" width="14" height="26"/><rect x="36" y="14" width="14" height="32"/><rect x="54" y="6" width="14" height="40"/><rect x="72" y="2" width="14" height="44" fill="#d9480f"/><rect x="90" y="8" width="14" height="38"/><rect x="108" y="16" width="14" height="30"/><rect x="126" y="24" width="14" height="22"/><rect x="144" y="30" width="14" height="16"/></g></svg></a>
+<a class="ox ox-refs" href="references.html"><span class="akicker">References</span><b>12 sources &amp; data</b><p>Every reference, the shared folder and the MATLAB CSV exports.</p><img src="assets/qr-references.png" alt=""/></a>
+<a class="ox ox-team" href="team.html"><span class="akicker">Team</span><b>Seven students, one supervisor</b><p>Meet the team behind the study.</p><span class="ov-avs"><span class="ov-av" title="Roz Aldosari"><svg viewBox="0 0 120 120" role="img" aria-hidden="true" class="char">
+<defs><clipPath id="co0"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<circle cx="60" cy="60" r="60" fill="#d9480f" opacity=".14"/>
+<g clip-path="url(#co0)">
+<path d="M14 124 C18 94 38 82 60 82 C82 82 102 94 106 124Z" fill="#5c220d"/>
+<path d="M32 54 C32 31 44 20 60 20 C76 20 88 31 88 54 C88 74 81 88 60 96 C39 88 32 74 32 54Z" fill="#7A2E12"/>
+<ellipse cx="60" cy="57" rx="16.5" ry="19.5" fill="#f1c9a5"/>
+<path d="M42.5 50 C44 37 51 33 60 33 C69 33 76 37 77.5 50 C72 43.5 66.5 41 60 41 C53.5 41 48 43.5 42.5 50Z" fill="#7A2E12"/>
+<circle cx="53" cy="57" r="2.1" fill="#2a1c16"/><circle cx="67" cy="57" r="2.1" fill="#2a1c16"/>
+<circle cx="49" cy="64" r="3" fill="#e57373" opacity=".28"/><circle cx="71" cy="64" r="3" fill="#e57373" opacity=".28"/>
+<path d="M54.5 66 Q60 71 65.5 66" stroke="#2a1c16" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+</g>
+<circle cx="94" cy="94" r="15" fill="#fff" stroke="#d9480f" stroke-width="2"/>
+<path d="M83 95 q3.7 -9 7.4 0 t7.4 0 t7.4 0" stroke="#d9480f" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span><span class="ov-av" title="Arwa Alshangiti"><svg viewBox="0 0 120 120" role="img" aria-hidden="true" class="char">
+<defs><clipPath id="co1"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<circle cx="60" cy="60" r="60" fill="#2f5fa7" opacity=".14"/>
+<g clip-path="url(#co1)">
+<path d="M14 124 C18 94 38 82 60 82 C82 82 102 94 106 124Z" fill="#16293d"/>
+<path d="M32 54 C32 31 44 20 60 20 C76 20 88 31 88 54 C88 74 81 88 60 96 C39 88 32 74 32 54Z" fill="#1f3b57"/>
+<ellipse cx="60" cy="57" rx="16.5" ry="19.5" fill="#e0b08a"/>
+<path d="M42.5 50 C44 37 51 33 60 33 C69 33 76 37 77.5 50 C72 43.5 66.5 41 60 41 C53.5 41 48 43.5 42.5 50Z" fill="#1f3b57"/>
+<circle cx="53" cy="57" r="2.1" fill="#2a1c16"/><circle cx="67" cy="57" r="2.1" fill="#2a1c16"/>
+<circle cx="49" cy="64" r="3" fill="#e57373" opacity=".28"/><circle cx="71" cy="64" r="3" fill="#e57373" opacity=".28"/>
+<path d="M54.5 66 Q60 71 65.5 66" stroke="#2a1c16" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+</g>
+<circle cx="94" cy="94" r="15" fill="#fff" stroke="#2f5fa7" stroke-width="2"/>
+<path d="M96 83 l-7 12 h6 l-3 10 l9 -13 h-6 l3 -9z" fill="#2f5fa7"/>
+</svg></span><span class="ov-av" title="Mayan Alkahtani"><svg viewBox="0 0 120 120" role="img" aria-hidden="true" class="char">
+<defs><clipPath id="co2"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<circle cx="60" cy="60" r="60" fill="#2a8c84" opacity=".14"/>
+<g clip-path="url(#co2)">
+<path d="M14 124 C18 94 38 82 60 82 C82 82 102 94 106 124Z" fill="#1e6560"/>
+<path d="M32 54 C32 31 44 20 60 20 C76 20 88 31 88 54 C88 74 81 88 60 96 C39 88 32 74 32 54Z" fill="#2a8c84"/>
+<ellipse cx="60" cy="57" rx="16.5" ry="19.5" fill="#c98e66"/>
+<path d="M42.5 50 C44 37 51 33 60 33 C69 33 76 37 77.5 50 C72 43.5 66.5 41 60 41 C53.5 41 48 43.5 42.5 50Z" fill="#2a8c84"/>
+<circle cx="53" cy="57" r="2.1" fill="#2a1c16"/><circle cx="67" cy="57" r="2.1" fill="#2a1c16"/>
+<circle cx="49" cy="64" r="3" fill="#e57373" opacity=".28"/><circle cx="71" cy="64" r="3" fill="#e57373" opacity=".28"/>
+<path d="M54.5 66 Q60 71 65.5 66" stroke="#2a1c16" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+</g>
+<circle cx="94" cy="94" r="15" fill="#fff" stroke="#2a8c84" stroke-width="2"/>
+<g fill="#2a8c84"><rect x="86" y="94" width="4" height="9" rx="1"/><rect x="92" y="88" width="4" height="15" rx="1"/><rect x="98" y="91" width="4" height="12" rx="1"/></g>
+</svg></span><span class="ov-av" title="Layan Asiri"><svg viewBox="0 0 120 120" role="img" aria-hidden="true" class="char">
+<defs><clipPath id="co3"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<circle cx="60" cy="60" r="60" fill="#8b5aa3" opacity=".14"/>
+<g clip-path="url(#co3)">
+<path d="M14 124 C18 94 38 82 60 82 C82 82 102 94 106 124Z" fill="#41294d"/>
+<path d="M32 54 C32 31 44 20 60 20 C76 20 88 31 88 54 C88 74 81 88 60 96 C39 88 32 74 32 54Z" fill="#5b3a6b"/>
+<ellipse cx="60" cy="57" rx="16.5" ry="19.5" fill="#f3d1b5"/>
+<path d="M42.5 50 C44 37 51 33 60 33 C69 33 76 37 77.5 50 C72 43.5 66.5 41 60 41 C53.5 41 48 43.5 42.5 50Z" fill="#5b3a6b"/>
+<circle cx="53" cy="57" r="2.1" fill="#2a1c16"/><circle cx="67" cy="57" r="2.1" fill="#2a1c16"/>
+<circle cx="49" cy="64" r="3" fill="#e57373" opacity=".28"/><circle cx="71" cy="64" r="3" fill="#e57373" opacity=".28"/>
+<path d="M54.5 66 Q60 71 65.5 66" stroke="#2a1c16" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+</g>
+<circle cx="94" cy="94" r="15" fill="#fff" stroke="#8b5aa3" stroke-width="2"/>
+<path d="M101 86 h-13 l7 8 l-7 8 h13" stroke="#8b5aa3" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span><span class="ov-av" title="Deema Aldwayan"><svg viewBox="0 0 120 120" role="img" aria-hidden="true" class="char">
+<defs><clipPath id="co4"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<circle cx="60" cy="60" r="60" fill="#d9480f" opacity=".14"/>
+<g clip-path="url(#co4)">
+<path d="M14 124 C18 94 38 82 60 82 C82 82 102 94 106 124Z" fill="#8a3e2b"/>
+<path d="M32 54 C32 31 44 20 60 20 C76 20 88 31 88 54 C88 74 81 88 60 96 C39 88 32 74 32 54Z" fill="#b4533a"/>
+<ellipse cx="60" cy="57" rx="16.5" ry="19.5" fill="#d9a27c"/>
+<path d="M42.5 50 C44 37 51 33 60 33 C69 33 76 37 77.5 50 C72 43.5 66.5 41 60 41 C53.5 41 48 43.5 42.5 50Z" fill="#b4533a"/>
+<circle cx="53" cy="57" r="2.1" fill="#2a1c16"/><circle cx="67" cy="57" r="2.1" fill="#2a1c16"/>
+<circle cx="49" cy="64" r="3" fill="#e57373" opacity=".28"/><circle cx="71" cy="64" r="3" fill="#e57373" opacity=".28"/>
+<path d="M54.5 66 Q60 71 65.5 66" stroke="#2a1c16" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+</g>
+<circle cx="94" cy="94" r="15" fill="#fff" stroke="#d9480f" stroke-width="2"/>
+<path d="M94 84 a7 7 0 0 1 4.5 12.4 v3 h-9 v-3 a7 7 0 0 1 4.5 -12.4z M91 103 h6" stroke="#d9480f" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span><span class="ov-av" title="Lina Mudhish"><svg viewBox="0 0 120 120" role="img" aria-hidden="true" class="char">
+<defs><clipPath id="co5"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<circle cx="60" cy="60" r="60" fill="#e09b1a" opacity=".14"/>
+<g clip-path="url(#co5)">
+<path d="M14 124 C18 94 38 82 60 82 C82 82 102 94 106 124Z" fill="#151315"/>
+<path d="M32 54 C32 31 44 20 60 20 C76 20 88 31 88 54 C88 74 81 88 60 96 C39 88 32 74 32 54Z" fill="#262326"/>
+<ellipse cx="60" cy="57" rx="16.5" ry="19.5" fill="#e8bb94"/>
+<path d="M42.5 50 C44 37 51 33 60 33 C69 33 76 37 77.5 50 C72 43.5 66.5 41 60 41 C53.5 41 48 43.5 42.5 50Z" fill="#262326"/>
+<circle cx="53" cy="57" r="2.1" fill="#2a1c16"/><circle cx="67" cy="57" r="2.1" fill="#2a1c16"/>
+<circle cx="49" cy="64" r="3" fill="#e57373" opacity=".28"/><circle cx="71" cy="64" r="3" fill="#e57373" opacity=".28"/>
+<path d="M54.5 66 Q60 71 65.5 66" stroke="#2a1c16" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<g stroke="#2a1c16" stroke-width="1.6" fill="none"><circle cx="53" cy="57" r="5.2"/><circle cx="67" cy="57" r="5.2"/><path d="M58.2 57 h3.6"/></g>
+</g>
+<circle cx="94" cy="94" r="15" fill="#fff" stroke="#e09b1a" stroke-width="2"/>
+<path d="M94 83 l-6 21 M94 83 l6 21 M89.5 92 h9 M88 98 h12" stroke="#e09b1a" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span><span class="ov-av" title="Juri Alabdullatif"><svg viewBox="0 0 120 120" role="img" aria-hidden="true" class="char">
+<defs><clipPath id="co6"><circle cx="60" cy="60" r="60"/></clipPath></defs>
+<circle cx="60" cy="60" r="60" fill="#4c8f73" opacity=".14"/>
+<g clip-path="url(#co6)">
+<path d="M14 124 C18 94 38 82 60 82 C82 82 102 94 106 124Z" fill="#2b402d"/>
+<path d="M32 54 C32 31 44 20 60 20 C76 20 88 31 88 54 C88 74 81 88 60 96 C39 88 32 74 32 54Z" fill="#3d5a40"/>
+<ellipse cx="60" cy="57" rx="16.5" ry="19.5" fill="#c48a63"/>
+<path d="M42.5 50 C44 37 51 33 60 33 C69 33 76 37 77.5 50 C72 43.5 66.5 41 60 41 C53.5 41 48 43.5 42.5 50Z" fill="#3d5a40"/>
+<circle cx="53" cy="57" r="2.1" fill="#2a1c16"/><circle cx="67" cy="57" r="2.1" fill="#2a1c16"/>
+<circle cx="49" cy="64" r="3" fill="#e57373" opacity=".28"/><circle cx="71" cy="64" r="3" fill="#e57373" opacity=".28"/>
+<path d="M54.5 66 Q60 71 65.5 66" stroke="#2a1c16" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+</g>
+<circle cx="94" cy="94" r="15" fill="#fff" stroke="#4c8f73" stroke-width="2"/>
+<path d="M90 84 v5 M98 84 v5 M86 89 h16 v4 a8 8 0 0 1 -16 0z M94 101 v4" stroke="#4c8f73" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span><span class="ov-av ov-sup"><img src="assets/team/yazan.jpg" alt=""/></span></span></a>
+</div>
+</section>
+<p class="srcline">Illustrative simulation of digitized total regional load (published 2017 Riyadh summer profile<sup><a aria-label="Reference 2" href="references.html#ref-load">[2]</a></sup>). Not smart-meter data or field validation.</p>
+</div>
 </main>
 <footer class="site-footer">
 <div class="shell footer-grid">

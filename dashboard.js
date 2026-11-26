@@ -182,6 +182,43 @@
     el('finding-energy').innerHTML = 'Each method moved <strong>' + fmt(direct.Shifted_Energy_MWh) + ' MWh</strong> to other hours. Daily energy stayed at ' + fmt(energy) + ' MWh, so the peak fell through redistribution, not savings.';
     el('finding-noise').innerHTML = 'With 3% synthetic noise on the one profile, Fourier K5 averaged <strong>' + pct(nK.Mean_PeakReduction_pct) + '</strong> vs ' + pct(nD.Mean_PeakReduction_pct) +
       ' for peak shaving only: ' + nK.Wins_vs_Direct_n + ' wins, ' + nK.Ties_vs_Direct_n + ' ties, ' + nK.Losses_vs_Direct_n + ' losses in 200 paired trials.';
+    /* headline counters */
+    const target = { peakcut: peak - guided.Peak_MW, peakpct: guided.Peak_Reduction_pct, shift: guided.Shifted_Energy_MWh, explained: k5.explained };
+    const reduce = globalThis.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const counters = [...document.querySelectorAll('[data-count]')];
+    const setC = (n, f) => { const v = target[n.dataset.count]; n.textContent = (+(v * f)).toLocaleString('en-US', { minimumFractionDigits: +n.dataset.dec, maximumFractionDigits: +n.dataset.dec }); };
+    const run = n => { if (reduce) return setC(n, 1); const t0 = performance.now(); const step = t => { const p = Math.min(1, (t - t0) / 1100); setC(n, 1 - Math.pow(1 - p, 3)); if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); };
+    if ('IntersectionObserver' in globalThis) { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } }), { threshold: .4 }); counters.forEach(n => io.observe(n)); }
+    else counters.forEach(n => setC(n, 1));
+    /* hero load curve */
+    const k5v = D.profiles.map(r => r.Fourier_K5_MW), prop = series[3].values;
+    const ov = { hour: peakHour };
+    const curve = mount('ov-curve', (host, w) => {
+      const h = Math.max(220, Math.min(320, Math.round(w * 0.56))), m = { l: 6, r: 6, t: 26, b: 26 };
+      const lo = 11000, hi = 14600, pw = w - m.l - m.r, ph = h - m.t - m.b;
+      const x = i => m.l + pw * i / 23, y = v => m.t + ph * (1 - (v - lo) / (hi - lo));
+      const pts = a => a.map((v, i) => [x(i), y(v)]);
+      const smooth = p => p.reduce((d, q, i) => { if (!i) return 'M' + q[0].toFixed(1) + ' ' + q[1].toFixed(1); const a = p[i - 1], c1 = (a[0] + q[0]) / 2; return d + ` C${c1.toFixed(1)} ${a[1].toFixed(1)} ${c1.toFixed(1)} ${q[1].toFixed(1)} ${q[0].toFixed(1)} ${q[1].toFixed(1)}`; }, '');
+      const bp = smooth(pts(base));
+      let b = `<defs><linearGradient id="ovg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f08a2c" stop-opacity=".55"/><stop offset="1" stop-color="#f08a2c" stop-opacity="0"/></linearGradient></defs>`;
+      [12000, 13000, 14000].forEach(v => { b += L(m.l, y(v), w - m.r, y(v), 'rgba(255,255,255,.08)') + T(w - m.r, y(v) - 4, fmt(v, 0), 'ov-ax', 'text-anchor="end"'); });
+      b += `<path d="${bp} L${x(23)} ${m.t + ph} L${x(0)} ${m.t + ph}Z" fill="url(#ovg)"/>`;
+      b += L(m.l, y(threshold), w - m.r, y(threshold), '#ffd9c4', 1, '5 5', 'opacity=".6"');
+      b += `<path class="ov-draw" d="${bp}" fill="none" stroke="#f6a77f" stroke-width="2.4" pathLength="1"/>`;
+      b += `<path d="${smooth(pts(k5v))}" fill="none" stroke="#e09b1a" stroke-width="1.6" stroke-dasharray="3 4"/>`;
+      b += `<path class="ov-draw d2" d="${smooth(pts(prop))}" fill="none" stroke="#fff" stroke-width="2.6" pathLength="1"/>`;
+      const px = x(peakHour), cut = peak - guided.Peak_MW;
+      b += L(px, y(peak), px, y(guided.Peak_MW), '#fff', 1.4, '', 'marker-end=""') + `<circle cx="${px}" cy="${y(peak)}" r="4" fill="#f6a77f"/>`;
+      b += T(px - 10, y(peak) - 2, '−' + fmt(cut) + ' MW at peak', 'ov-note', 'text-anchor="end"');
+      [0, 6, 12, 18, 23].forEach(t => { b += T(x(t), h - 6, hour(t), 'ov-ax', `text-anchor="${t === 0 ? 'start' : t === 23 ? 'end' : 'middle'}"`); });
+      const sx = x(ov.hour);
+      b += L(sx, m.t, sx, m.t + ph, 'rgba(255,255,255,.35)') + `<circle cx="${sx}" cy="${y(base[ov.hour])}" r="5" fill="#1c1411" stroke="#f6a77f" stroke-width="2"/><circle cx="${sx}" cy="${y(prop[ov.hour])}" r="4" fill="#fff"/>`;
+      host.innerHTML = svg(w, h, 'Measured load, Fourier K5 fit and proposed schedule over 24 hours', b);
+      scrub(host, x(0), x(23), t => { if (t === ov.hour) return; ov.hour = t; curve.render(); ovRead(); });
+    });
+    const ovRead = () => { el('ov-readout').textContent = hour(ov.hour) + ' · ' + fmt(base[ov.hour]) + ' → ' + fmt(prop[ov.hour]) + ' MW'; };
+    ovRead();
+    setTimeout(() => el('ov-curve').classList.add('drawn'), 2200);
     return;
   }
   if (!el('dr-chart')) return;
