@@ -543,3 +543,18 @@ nav a[aria-current=page]{color:var(--night);font-weight:650;border-bottom-color:
 .member .li[href=""]{display:none}
 .ref-folder{margin-top:14px;font-size:.95rem}
 @media (max-width:600px){.masthead nav{flex-wrap:nowrap;overflow-x:auto;gap:18px;scrollbar-width:none}.masthead nav::-webkit-scrollbar{display:none}.masthead nav a{white-space:nowrap;font-size:.9rem}}
+/* logo-only header and footer */
+.institutions{grid-template-columns:1fr 1fr 1fr!important;align-items:center;justify-items:center;padding:16px 0!important}
+.institutions>div{justify-self:center!important;justify-items:center!important;display:flex!important;align-items:center;justify-content:center}
+.affiliation-logo img{width:auto!important;height:56px!important;object-position:center!important}
+.conference-logo img{width:auto!important;height:30px!important}
+.patron-logo img{width:auto!important;height:56px!important}
+.site-footer{padding:26px 0}
+.footer-grid{justify-content:center!important;gap:24px 72px!important}
+.site-footer figure img{height:64px!important}
+@media (max-width:600px){
+  .institutions{grid-template-columns:1fr 1fr 1fr!important;gap:10px!important;padding:12px 0!important}
+  .conference-logo{grid-column:auto!important;grid-row:auto!important}
+  .affiliation-logo img{height:38px!important}.conference-logo img{height:20px!important}.patron-logo img{height:36px!important}
+  .footer-grid{gap:18px 40px!important}.site-footer figure img{height:44px!important}
+}

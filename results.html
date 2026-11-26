@@ -15,9 +15,9 @@
 <a class="skip" href="#top">Skip to content</a>
 <header class="top">
 <div class="shell institutions" aria-label="Affiliation and conference">
-<div class="affiliation-logo"><img alt="Princess Nourah bint Abdulrahman University" src="assets/pnu-logo.svg"/><span>College of Engineering</span></div>
-<div class="conference-logo"><img alt="SASG26" src="assets/sasg26.svg"/><span dir="rtl" lang="ar">المؤتمر السعودي الرابع عشر للشبكات الذكية</span></div>
-<div class="patron-logo"><span>Under the patronage of</span><img alt="Ministry of Energy, Kingdom of Saudi Arabia" src="assets/ministry-energy-ink.png"/></div>
+<div class="affiliation-logo"><img alt="Princess Nourah bint Abdulrahman University" src="assets/pnu-logo.svg"/></div>
+<div class="conference-logo"><img alt="SASG26" src="assets/sasg26.svg"/></div>
+<div class="patron-logo"><img alt="Ministry of Energy, Kingdom of Saudi Arabia" src="assets/ministry-energy-ink.png"/></div>
 </div>
 <div class="reading-bar"><div class="shell masthead"><nav aria-label="Site"><a href="index.html">Overview</a><a href="research.html">Research</a><a href="results.html" aria-current="page">Results</a><a href="references.html">References</a><a href="team.html">Team</a></nav></div></div>
 </header>
@@ -91,7 +91,7 @@
 <figure class="figure">
 <div class="chart" id="dr-chart"></div>
 <div class="scrub"><label for="dr-hour">Hour</label><input id="dr-hour" type="range" min="0" max="23" step="1" value="13"/></div>
-<figcaption>No control is the digitized input; the three schedules are simulation results. Shaded bands are the fixed-time schedule’s donor (12:00–17:00) and receiving (00:00–05:00) hours. Peak shaving only and the proposed method choose their own hours. The dashed line at 13,500 MW is an analytical threshold for this study.</figcaption>
+
 </figure>
 <aside class="readout" id="dr-readout" aria-live="polite" aria-label="Load at the selected hour"></aside>
 </div>
@@ -134,7 +134,7 @@
 <figure class="figure">
 <div class="chart" id="fit-chart"></div>
 <div class="scrub"><label for="fit-hour">Hour</label><input id="fit-hour" type="range" min="0" max="23" step="1" value="13"/></div>
-<figcaption>Upper panel: open circles are the 24 digitized hourly estimates, the line is the reconstruction. Lower panel: residual (estimate minus fit) on the same time axis, with a fixed ±600 MW scale for every K.</figcaption>
+
 </figure>
 <aside class="readout compact" id="fit-readout" aria-live="polite" aria-label="Fit at the selected hour"></aside>
 </div>
@@ -143,7 +143,7 @@
 <p>Hourly RMSE for one through seven harmonics. Select a point to change the model above.</p>
 </div>
 <figure class="figure"><div class="chart" id="order-chart"></div>
-<figcaption>K = 7 is exploratory and was not used for control.</figcaption></figure>
+</figure>
 </section>
 
 <!-- 03 · Harmonics -->
@@ -155,7 +155,7 @@
 </header>
 <div class="pair uneven">
 <figure class="figure"><div class="chart" id="spectrum-chart"></div>
-<figcaption>Amplitude of each harmonic from a common zero. The percentage is that harmonic’s share of hourly variation.</figcaption></figure>
+</figure>
 <div>
 <dl class="stats tight" id="harmonic-stats" aria-live="polite"></dl>
 <figure class="figure"><div class="chart" id="wave-chart"></div>
@@ -186,9 +186,9 @@
 <p class="callout" id="noise-callout"></p>
 <div class="pair">
 <figure class="figure"><div class="chart" id="outcome-chart"></div>
-<figcaption>Paired outcomes relative to peak shaving only in the same trials.</figcaption></figure>
+</figure>
 <figure class="figure"><div class="chart" id="spread-chart"></div>
-<figcaption>Mean peak reduction (filled) and the 5th-percentile trial (open), the low end of the range.</figcaption></figure>
+</figure>
 </div>
 <p class="note">Moving-average curves (3 h and 5 h) are smoothing benchmarks. Their results are close to Fourier K5, so the advantage over peak shaving only comes from smoothing in general and is not specific to Fourier. These are results under simulated noise, not field validation.</p>
 </section>
@@ -215,7 +215,7 @@
 <figure class="figure meter-card">
 <div class="chart" id="meter-chart"></div>
 <div class="scrub"><label for="meter-hour">Hour</label><input id="meter-hour" type="range" min="0" max="23" step="1" value="13"/></div>
-<figcaption>Meter-style view of the same hour, for illustration only. It replays the historical digitized profile and has no live telemetry or smart-meter data.</figcaption>
+
 </figure>
 <div class="context-col">
 <div class="context-card" aria-label="Saudi grid context">
@@ -258,11 +258,9 @@
 </main>
 <footer class="site-footer">
 <div class="shell footer-grid">
-<div><p class="foot-k">Conference partners</p><p class="foot-s">Saudi Arabia Smart Grid Conference 2026</p></div>
-<figure><img alt="IEEE Power &amp; Energy Society" src="assets/ieee-ink.png"/><figcaption>Technical partner</figcaption></figure>
-<figure><img alt="Association for Electrical and Energy Engineering" src="assets/aeee-ink.png"/><figcaption>Scientific and professional sponsor</figcaption></figure>
+<figure><img alt="IEEE Power &amp; Energy Society" src="assets/ieee-ink.png"/></figure>
+<figure><img alt="Association for Electrical and Energy Engineering" src="assets/aeee-ink.png"/></figure>
 </div>
-<div class="shell foot-line">Department of Electrical Engineering · College of Engineering · Princess Nourah bint Abdulrahman University</div>
 </footer>
 </body>
 </html>
