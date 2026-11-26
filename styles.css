@@ -712,3 +712,5 @@ nav a[aria-current=page]{color:var(--night);font-weight:650;border-bottom-color:
 .article-page .peq{font-size:1.05rem}
 @media (max-width:1000px){.alayout{grid-template-columns:1fr}.atoc{position:static;border-left:0;padding:0}.atoc ol{display:flex;flex-wrap:wrap;gap:6px 14px}.agrid4{grid-template-columns:1fr 1fr}.aflow{grid-template-columns:1fr 1fr}.aflow li{margin:0 0 10px}.aflow li::after{display:none}.aparams{grid-template-columns:1fr 1fr}}
 @media (max-width:700px){.atwo,.agrid3,.agrid4,.astats,.anext,.aflow{grid-template-columns:1fr}}
+.member.supervisor .avatar{position:relative;overflow:hidden}
+.member.supervisor .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
