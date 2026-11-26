@@ -807,3 +807,12 @@ html body .ov-av,html body .ov-n,html body .ov-av img{border-radius:50%!importan
 .article-page .pager{margin-top:28px}
 @media (max-width:700px){.pager{grid-template-columns:1fr}.phero .shell{width:calc(100% - 32px)}}
 @media (prefers-reduced-motion:reduce){.pager a{transition:none}}
+/* logos pushed to the far edges (header + footer) */
+.top .institutions.shell{width:auto!important;padding-inline:clamp(16px,2.4vw,36px)!important;grid-template-columns:1fr auto 1fr!important;justify-items:stretch!important}
+.top .institutions>.affiliation-logo{justify-self:start!important;justify-content:flex-start!important}
+.top .institutions>.conference-logo{justify-self:center!important}
+.top .institutions>.patron-logo{justify-self:end!important;justify-content:flex-end!important}
+.site-footer .footer-grid.shell{width:auto!important;padding-inline:clamp(16px,2.4vw,36px)!important;display:flex!important;justify-content:space-between!important;align-items:center}
+.ox-refnums{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px}
+.ox-refnums i{font-style:normal;font-family:var(--mono);font-size:.8rem;font-weight:700;color:var(--copper);border:1px solid #f0cdb6;background:var(--copper-tint);padding:5px 8px}
+.muted-note{color:var(--muted);font-size:.9rem;margin:0 0 10px}
