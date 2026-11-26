@@ -649,3 +649,66 @@ nav a[aria-current=page]{color:var(--night);font-weight:650;border-bottom-color:
 @media (max-width:760px){.pgrid{grid-template-columns:1fr}.pcard.span2,.pcard.span3{grid-column:auto}.pconc{grid-template-columns:1fr}.pstats{grid-template-columns:1fr}.pscope li{grid-template-columns:1fr;gap:2px}}
 .team-row.students{max-width:960px;margin-inline:auto}
 .member.supervisor .avatar{border-radius:50%!important}
+/* ---------- research article layout ---------- */
+.article-page{padding:0 0 10px}
+.ahero{background:var(--night);color:#fff;padding:46px 0 38px;margin-bottom:34px;background-image:radial-gradient(circle at 85% 20%,rgba(217,72,15,.35),transparent 45%),radial-gradient(circle at 10% 110%,rgba(122,46,18,.6),transparent 50%)}
+.ahero .akicker{color:#f6a77f}
+.ahero h1{font-family:var(--display);font-weight:800;font-stretch:108%;letter-spacing:-.015em;font-size:clamp(1.8rem,3.4vw,3rem);line-height:1.08;margin:8px 0 18px;max-width:1100px;color:#fff}
+.ahero .pauthors{color:#ffd9c4}.ahero .pdept{color:#cdbfb6}
+.akicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--copper);margin:0}
+.alayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:44px;align-items:start}
+.atoc{position:sticky;top:18px;border-left:2px solid var(--edge);padding:4px 0 4px 16px}
+.atoc p{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.atoc ol{list-style:none;margin:0 0 16px;padding:0;counter-reset:t}
+.atoc li{counter-increment:t;margin:0 0 7px}
+.atoc li a{color:var(--text);text-decoration:none;font-size:.9rem}
+.atoc li a::before{content:counter(t,decimal-leading-zero) "  ";font-family:var(--mono);font-size:.72rem;color:var(--copper)}
+.atoc li a:hover{color:var(--copper)}
+.atoc-cta{display:inline-block;background:var(--pb);color:#fff!important;text-decoration:none;font-weight:700;font-size:.85rem;padding:8px 12px}
+.abody{min-width:0}
+.aabs{background:#fff;border:1px solid var(--edge);border-top:4px solid var(--pb);padding:22px 26px;margin-bottom:36px}
+.aabs p{font-size:1.04rem;line-height:1.7;margin:8px 0}
+.asec{margin:0 0 44px;scroll-margin-top:16px}
+.asec>h2{display:flex;align-items:baseline;gap:14px;font-family:var(--display);font-weight:800;font-stretch:110%;letter-spacing:-.015em;font-size:clamp(1.5rem,2.4vw,2rem);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--edge)}
+.asec>h2 span{font-family:var(--mono);font-size:.9rem;color:var(--copper);font-weight:700}
+.asec p{font-size:1.02rem;line-height:1.72;margin:0 0 14px;max-width:none}
+.alead{font-size:1.18rem!important;line-height:1.6!important;color:var(--navy)}
+.astats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:6px 0 18px}
+.astats div{background:#fff;border:1px solid var(--edge);padding:18px 16px}
+.astats strong{display:block;font-family:var(--display);font-weight:800;font-size:2rem;color:var(--pb);letter-spacing:-.01em}
+.astats span{display:block;font-size:.85rem;color:var(--muted);margin-top:4px;line-height:1.45}
+.atwo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.agrid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:10px}
+.agrid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.acard{background:#fff;border:1px solid var(--edge);padding:18px 20px}
+.acard h3,.ah3{font-size:1.02rem;margin:0 0 8px;color:var(--navy)}
+.ah3{margin-top:22px}
+.acard p{font-size:.97rem!important;margin:0!important}
+.aquote{border-left:4px solid var(--pb);background:#f7eeea;padding:16px 20px;font-size:1.06rem;line-height:1.65;color:var(--navy)}
+.aquote span{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pb);margin-bottom:4px}
+.aflow{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin:16px 0 0;padding:0;counter-reset:f}
+.aflow li{counter-increment:f;position:relative;background:#fff;border:1px solid var(--edge);padding:16px 14px 14px;margin-right:18px}
+.aflow li:last-child{margin-right:0}
+.aflow li::before{content:counter(f);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--pb);color:#fff;font-weight:800;font-size:.8rem;margin-bottom:8px}
+.aflow li:not(:last-child)::after{content:"→";position:absolute;right:-16px;top:50%;transform:translateY(-50%);color:var(--copper);font-weight:800}
+.aflow b{display:block;font-size:.95rem;color:var(--navy)}
+.aflow span{display:block;font-size:.8rem;color:var(--muted);margin-top:2px}
+.aparams{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:4px 0 16px}
+.aparams div{background:var(--night);color:#fff;padding:14px 14px}
+.aparams span{font-family:var(--serif);font-size:.95rem;color:#f6a77f}
+.aparams strong{display:block;font-family:var(--mono);font-size:1.15rem;margin:4px 0 2px}
+.aparams em{font-style:normal;font-size:.76rem;color:#cdbfb6}
+.amethod{background:#fff;border:1px solid var(--edge);border-top:4px solid #b9a58a;padding:16px}
+.amethod.prop{border-top-color:var(--pb);background:#fbf4ef}.amethod.ref{border-top-color:#d7cfc6}
+.amethod b{display:block;color:var(--navy);margin-bottom:6px}
+.amethod p{font-size:.9rem!important;margin:0!important;line-height:1.55!important}
+.anote{font-size:.9rem!important;color:var(--muted)}
+.anext{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+.anext a{display:block;background:var(--night);color:#fff;text-decoration:none;padding:20px}
+.anext a:hover{background:var(--pb)}
+.anext span{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#f6a77f}
+.anext b{display:block;font-size:1.3rem;margin:4px 0}
+.anext em{font-style:normal;font-size:.85rem;color:#cdbfb6}
+.article-page .peq{font-size:1.05rem}
+@media (max-width:1000px){.alayout{grid-template-columns:1fr}.atoc{position:static;border-left:0;padding:0}.atoc ol{display:flex;flex-wrap:wrap;gap:6px 14px}.agrid4{grid-template-columns:1fr 1fr}.aflow{grid-template-columns:1fr 1fr}.aflow li{margin:0 0 10px}.aflow li::after{display:none}.aparams{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.atwo,.agrid3,.agrid4,.astats,.anext,.aflow{grid-template-columns:1fr}}
